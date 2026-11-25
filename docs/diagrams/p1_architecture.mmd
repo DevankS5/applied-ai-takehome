@@ -1,0 +1,27 @@
+flowchart LR
+  subgraph ING["Ingestion: python -m rag.ingest folder"]
+    direction TB
+    A["PDF / HTML / MD files"] --> B["Loaders<br/>pypdf, BeautifulSoup, Markdown<br/>text + page / heading spans"]
+    B --> C["Token-aware chunker<br/>400 tokens, 60 overlap<br/>(bge tokenizer, sentence packing)"]
+    C --> D{"chunk_id = sha256(doc, config, text)<br/>already stored?"}
+    D -- yes --> E["skip: not re-embedded"]
+    D -- no --> F["Embed passages<br/>bge-small-en-v1.5, ONNX on CPU<br/>384-d, unit length"]
+    F --> G[("LanceDB table<br/>vector + doc_type, title, page,<br/>heading, text<br/>merge_insert on chunk_id")]
+    D -. "doc edited" .-> H["delete its stale chunks"]
+    G --> I["rebuild BM25 full-text index"]
+  end
+  subgraph QRY["Query: POST /query {question, k, filters}"]
+    direction TB
+    Q["question"] --> R["Embed query<br/>(bge query instruction)"]
+    R --> S["Hybrid top-k<br/>dense cosine + BM25, RRF fusion<br/>metadata filter as WHERE prefilter"]
+    S --> T{"best cosine >= 0.58?"}
+    T -- no --> U["NO-CONTEXT BRANCH<br/>abstain, LLM never called"]
+    T -- yes --> V["Grounded prompt<br/>numbered passages,<br/>cite every sentence"]
+    V --> W["Llama 3.3 70B (Groq)"]
+    W --> X{"replied<br/>INSUFFICIENT_CONTEXT?"}
+    X -- yes --> U
+    X -- no --> Y["parse + validate [n] citations"]
+    Y --> Z["JSON: answer, citations, sources,<br/>latency per stage, chunk count, tokens"]
+    U --> Z
+  end
+  G == "vectors + BM25" ==> S
