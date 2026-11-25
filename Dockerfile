@@ -10,12 +10,12 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY . .
-# Build the index into the image: fetch the pinned corpus, chunk, embed (CPU), write LanceDB + BM25 index.
-RUN python scripts/fetch_corpus.py && python -m rag.ingest data/corpus/raw \
+# Build the index into the image: fetch the pinned corpus (fails on any content mismatch vs the lock), chunk, embed (CPU), write LanceDB + BM25 index.
+RUN python scripts/fetch_corpus.py --verify && python -m rag.ingest data/corpus/raw \
     && useradd -m -u 1000 app && chown -R app /app
 USER app
 
 EXPOSE 7860
-# No --proxy-headers: X-Forwarded-For is client-controlled; without a trusted x-real-ip the limiter
-# falls back to one shared bucket, which is the safe failure for a public demo key.
+# No --proxy-headers and RAG_TRUST_X_REAL_IP unset: behind an unknown proxy every client shares one
+# rate-limit bucket, the safe failure for a public demo key (plus the daily LLM cap).
 CMD ["uvicorn", "rag.api:app", "--host", "0.0.0.0", "--port", "7860"]
