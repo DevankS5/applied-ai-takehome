@@ -1,0 +1,25 @@
+{"id": "q01", "question": "When nothing is configured, how wide is the candidate list Postgres's vector extension uses while walking its graph index at query time?"}
+{"id": "q02", "question": "Out of the box, how many links per graph level and how large a build-time candidate list does the Postgres vector extension use for its graph index?"}
+{"id": "q03", "question": "What is the largest embedding width the Postgres extension can still put a graph index on for its standard float type?"}
+{"id": "q04", "question": "Which programming language is the tiny SQLite vector search add-on implemented in, and does it need any other libraries?"}
+{"id": "q05", "question": "Which on-disk data layout does the multimodal lakehouse database sit on?"}
+{"id": "q06", "question": "Meta's similarity-search library is implemented in which language, and which scripting language can call all of it?"}
+{"id": "q07", "question": "For the classic probabilistic keyword ranking function, what settings of the term-saturation and length-normalisation knobs are standard when nobody has tuned them?"}
+{"id": "q08", "question": "The two letters in front of 25 in the popular search ranking function abbreviate what?"}
+{"id": "q09", "question": "How does one turn the position-discounted gain of a ranked list into a value comparable across different searches?"}
+{"id": "q10", "question": "If a system never returns a correct item for a query, what does that query contribute to the average of inverse first-hit positions?"}
+{"id": "q11", "question": "Under the widely quoted rule of thumb for chance-corrected inter-rater agreement, which band of values is labelled the top category?"}
+{"id": "q12", "question": "When did the approach of letting language models look things up before answering first appear?"}
+{"id": "q13", "question": "What families of algorithms do embedding databases rely on to find close neighbours among many-dimensional points?"}
+{"id": "q14", "question": "Lewis and colleagues propose two ways of marginalising over fetched passages; what separates the per-output variant from the per-word variant?"}
+{"id": "q15", "question": "Which seq2seq network writes the outputs in the original retrieve-then-generate system from Facebook, and how big is it?"}
+{"id": "q16", "question": "In the 2020 retrieve-and-generate architecture, what plays the role of the external, non-weight knowledge store?"}
+{"id": "q17", "question": "How closely did the strongest model graders match people's preferences in the multi-turn chat benchmark study?"}
+{"id": "q18", "question": "What failure modes did the authors who built the multi-turn chatbot benchmark look into when using models as graders?"}
+{"id": "q19", "question": "How large is the multi-turn question set introduced alongside Chatbot Arena?"}
+{"id": "q20", "question": "Do language models exploit facts placed early, late or in the centre of a long prompt most effectively?"}
+{"id": "q21", "question": "Which two experimental setups were used to probe how models handle long inputs in the U-shaped curve study?"}
+{"id": "q22", "question": "In the multi-level small-world graph index, how is the top level a newly inserted point reaches decided?"}
+{"id": "q23", "question": "In the reference-free RAG evaluation framework, how is the groundedness number calculated from the answer's claims?"}
+{"id": "q24", "question": "What speed-up over earlier GPU methods did the billion-vector similarity search paper report for its k-nearest-neighbour search?"}
+{"id": "q25", "question": "What is the size of the Chinese embedding benchmark released with the BGE models, in tasks and datasets?"}
