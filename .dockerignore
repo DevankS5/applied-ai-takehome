@@ -1,0 +1,13 @@
+.git
+.venv
+.env
+.env.*
+!.env.example
+.cache
+data/lancedb
+data/bench
+data/hf
+data/corpus/raw
+logs
+**/__pycache__
+.pytest_cache
