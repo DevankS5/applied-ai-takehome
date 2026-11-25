@@ -8,6 +8,7 @@ so chunks can carry citation metadata no matter where the chunker cuts.
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -75,8 +76,12 @@ def load_pdf(path: Path, doc_id: str, title: str) -> Document:
 
 def load_html(path: Path, doc_id: str, title: str) -> Document:
     soup = BeautifulSoup(path.read_text(encoding="utf-8"), "html.parser")
-    for m in soup.find_all("math"):  # keep formulas readable (MathML -> LaTeX alttext)
-        m.replace_with(f" {m.get('alttext', '')} ")
+    for m in soup.find_all("math"):  # keep formulas readable: MathML -> its LaTeX source
+        try:  # Parsoid (REST API) keeps the source in data-mw; rendered pages use alttext
+            tex = json.loads(m.get("data-mw", "{}"))["body"]["extsrc"]
+        except (KeyError, ValueError, TypeError):
+            tex = m.get("alttext", "")
+        m.replace_with(f" {tex.strip()} ")
     junk = ["script", "style", "nav", "footer", "sup", "link", "meta", "figure"]
     for tag in soup.find_all(junk):
         tag.decompose()
