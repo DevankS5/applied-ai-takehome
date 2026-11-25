@@ -70,6 +70,8 @@ def ingest(folder: Path, chunk_size: int, overlap: int, table: str | None = None
 
     if prune:
         stats["deleted"] += store.delete_docs_not_in(seen_docs)
+    if stats["embedded"] or stats["deleted"] or not store.table.list_indices():
+        store.build_text_index()  # keyword leg of hybrid search must see the new rows
     stats.update(
         table=store.name, chunk_size=chunk_size, overlap=overlap, embed_model=s.embed_model, embed_dim=s.embed_dim,
         vectors_before=before, vectors_after=store.count(), seconds=round(time.perf_counter() - t0, 2),

@@ -19,10 +19,13 @@ class Settings(BaseSettings):
     chunk_size: int = 400  # tokens (bge tokenizer)
     chunk_overlap: int = 60  # tokens
     top_k: int = 5
+    search_mode: str = "hybrid"  # vector | bm25 | hybrid (dense + BM25 fused with RRF)
+    rerank: bool = False  # cross-encoder over 4k hybrid candidates: better ranking, ~1 s CPU
+    rerank_model: str = "jinaai/jina-reranker-v1-tiny-en"
     max_top_k: int = 20
     # Cosine-similarity floor: below it we abstain without calling the LLM.
-    # Calibrated on the eval set (see rag_eval/calibrate_threshold.py and results/p1).
-    min_score: float = 0.55
+    # Calibrated on the eval set (rag_eval/run_retrieval.py: lowest answerable top-1 minus 0.05; results/p1/retrieval.md).
+    min_score: float = 0.58
     gen_provider: str = "groq"
     gen_model: str = "llama-3.3-70b-versatile"
     gen_max_tokens: int = 400

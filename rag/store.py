@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import time
+import warnings
 
 import lancedb
 import numpy as np
@@ -31,6 +32,10 @@ def schema(dim: int) -> pa.Schema:
         # Record how the vectors were produced, next to the vectors.
         metadata={"embed_model": s.embed_model, "embed_dim": str(dim)},
     )
+
+
+COLS = ["chunk_id", "doc_id", "source", "doc_type", "title", "heading", "page", "chunk_index", "text"]
+FILTER_KEYS = {"doc_type", "doc_id", "source", "title"}
 
 
 def _quote(v: str) -> str:
@@ -78,19 +83,68 @@ class Store:
             self.table.delete(f"doc_id = {_quote(d)}")
         return before - self.count()
 
-    def search(self, qvec: np.ndarray, k: int, filters: dict[str, str] | None = None) -> tuple[list[dict], float]:
-        """Top-k by cosine similarity, with optional equality filters on metadata columns."""
-        q = self.table.search(qvec.tolist()).distance_type("cosine").limit(k)
-        if filters:
-            allowed = {"doc_type", "doc_id", "source", "title"}
-            bad = set(filters) - allowed
-            if bad:
-                raise ValueError(f"unsupported filter keys: {sorted(bad)}; allowed: {sorted(allowed)}")
-            q = q.where(" AND ".join(f"{k_} = {_quote(str(v))}" for k_, v in filters.items()), prefilter=True)
+    def build_text_index(self) -> None:
+        """BM25 full-text index on chunk text; rebuilt after each ingest so new rows are searchable."""
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            self.table.create_fts_index("text", replace=True, stem=True, remove_stop_words=True)
+
+    def _where(self, filters: dict[str, str] | None) -> str | None:
+        if not filters:
+            return None
+        bad = set(filters) - FILTER_KEYS
+        if bad:
+            raise ValueError(f"unsupported filter keys: {sorted(bad)}; allowed: {sorted(FILTER_KEYS)}")
+        return " AND ".join(f"{k} = {_quote(str(v))}" for k, v in filters.items())
+
+    def _vector(self, qvec: np.ndarray, n: int, where: str | None) -> list[dict]:
+        q = self.table.search(qvec.tolist()).distance_type("cosine").limit(n)
+        if where:
+            q = q.where(where, prefilter=True)
+        return q.select(COLS + ["_distance"]).to_list()
+
+    def _bm25(self, text: str, n: int, where: str | None) -> list[dict]:
+        q = self.table.search(text, query_type="fts").limit(n)
+        if where:
+            q = q.where(where, prefilter=True)
+        try:
+            return q.select(COLS + ["vector"]).to_list()
+        except Exception:  # no FTS index yet (fresh table): behave like an empty keyword leg
+            return []
+
+    def search(
+        self, qvec: np.ndarray, k: int, filters: dict[str, str] | None = None,
+        text: str | None = None, mode: str = "hybrid", rrf_k: int = 60,
+    ) -> tuple[list[dict], float]:
+        """Top-k chunks. Every row carries `score` = cosine similarity to the query (used by the
+        no-context guard) and, in hybrid mode, `rrf` = reciprocal-rank-fusion score (used to rank).
+
+        vector: dense cosine top-k.  bm25: keyword top-k.  hybrid: both legs fetch 2k candidates,
+        fused with RRF (sum of 1 / (rrf_k + rank)), which needs no score calibration between legs."""
+        if mode not in {"vector", "bm25", "hybrid"}:
+            raise ValueError("mode must be vector, bm25 or hybrid")
+        where = self._where(filters)
         t0 = time.perf_counter()
-        cols = ["chunk_id", "doc_id", "source", "doc_type", "title", "heading", "page", "chunk_index", "text", "_distance"]
-        rows = q.select(cols).to_list()
-        ms = (time.perf_counter() - t0) * 1000
-        for r in rows:
-            r["score"] = 1.0 - float(r.pop("_distance"))  # cosine similarity
-        return rows, ms
+        if mode == "vector" or not text:
+            rows = self._vector(qvec, k, where)
+            for r in rows:
+                r["score"] = 1.0 - float(r.pop("_distance"))
+        else:
+            n = k if mode == "bm25" else 2 * k
+            kw = self._bm25(text, n, where)
+            for r in kw:  # vectors are unit length, so cosine is a dot product
+                r["score"] = float(np.dot(qvec, np.asarray(r.pop("vector"), dtype=np.float32)))
+                r.pop("_score", None)
+            if mode == "bm25":
+                rows = kw
+            else:
+                dense = self._vector(qvec, n, where)
+                for r in dense:
+                    r["score"] = 1.0 - float(r.pop("_distance"))
+                fused: dict[str, dict] = {}
+                for leg in (dense, kw):
+                    for rank, r in enumerate(leg, start=1):
+                        f = fused.setdefault(r["chunk_id"], {**r, "rrf": 0.0})
+                        f["rrf"] += 1.0 / (rrf_k + rank)
+                rows = sorted(fused.values(), key=lambda r: r["rrf"], reverse=True)[:k]
+        return rows, (time.perf_counter() - t0) * 1000

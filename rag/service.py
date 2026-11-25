@@ -29,17 +29,35 @@ def store() -> Store:
     return _store
 
 
-def answer(question: str, k: int | None = None, filters: dict | None = None, generate_answer: bool = True) -> dict:
+def retrieve(question: str, k: int, filters: dict | None = None, mode: str | None = None, rerank: bool | None = None):
+    """Embed + search (+ optional rerank). Returns rows, embed ms, retrieve ms."""
+    s = get_settings()
+    mode = mode or s.search_mode
+    rerank = s.rerank if rerank is None else rerank
+    t0 = time.perf_counter()
+    qvec = embed_query(question)
+    t_embed = (time.perf_counter() - t0) * 1000
+    rows, t_retrieve = store().search(qvec, 4 * k if rerank else k, filters, text=question, mode=mode)
+    if rerank and rows:
+        from rag.rerank import rerank as ce_rerank  # lazy: the model is optional
+
+        t1 = time.perf_counter()
+        rows = ce_rerank(question, rows, k)
+        t_retrieve += (time.perf_counter() - t1) * 1000
+    return rows, t_embed, t_retrieve
+
+
+def answer(question: str, k: int | None = None, filters: dict | None = None, generate_answer: bool = True,
+           mode: str | None = None) -> dict:
     s = get_settings()
     k = k or s.top_k
     if not 1 <= k <= s.max_top_k:
         raise ValueError(f"k must be between 1 and {s.max_top_k}")
     t0 = time.perf_counter()
-    qvec = embed_query(question)
-    t_embed = (time.perf_counter() - t0) * 1000
-    rows, t_retrieve = store().search(qvec, k, filters)
+    rows, t_embed, t_retrieve = retrieve(question, k, filters, mode)
 
-    top = rows[0]["score"] if rows else 0.0
+    # Guard on the best cosine similarity among the retrieved chunks (rank order may be RRF).
+    top = max((r["score"] for r in rows), default=0.0)
     gen = None
     if not rows or top < s.min_score:
         reason = "no_chunks" if not rows else "below_threshold"
@@ -64,6 +82,7 @@ def answer(question: str, k: int | None = None, filters: dict | None = None, gen
         "invalid_citations": gen.invalid_citations if gen else [],
         "sources": sources,
         "k": k,
+        "mode": mode or s.search_mode,
         "filters": filters or {},
         "top_score": round(top, 4),
         "latency_ms": {
@@ -78,7 +97,7 @@ def answer(question: str, k: int | None = None, filters: dict | None = None, gen
         "model": {"embed": s.embed_model, "embed_dim": s.embed_dim, "generator": gen.model if gen else None},
     }
     log.info(json.dumps({
-        "event": "query", "q_chars": len(question), "k": k, "filters": filters or {}, "top_score": out["top_score"],
+        "event": "query", "q_chars": len(question), "k": k, "mode": mode or s.search_mode, "filters": filters or {}, "top_score": out["top_score"],
         "abstained": out["abstained"], "abstain_reason": reason, "chunks_retrieved": out["chunks_retrieved"],
         "chunks_cited": out["chunks_cited"], "latency_ms": out["latency_ms"], "tokens": out["tokens"],
     }))
