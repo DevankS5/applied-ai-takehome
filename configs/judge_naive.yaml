@@ -1,0 +1,6 @@
+# Baseline judge prompt (bare score / "which is better"), used only to measure the mitigations.
+name: gemini-naive
+provider: gemini
+model: gemini-3.5-flash-lite
+temperature: 0.0
+prompt: naive
