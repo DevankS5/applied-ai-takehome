@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import threading
 import time
 from collections import defaultdict, deque
 from pathlib import Path
@@ -41,36 +42,64 @@ class QueryIn(BaseModel):
 # counter (Redis/Upstash) would make them global if the demo ever gets real traffic.
 _hits: dict[str, deque] = defaultdict(deque)
 _day = {"date": time.strftime("%Y-%m-%d"), "llm_calls": 0}
+_lock = threading.Lock()
+MAX_TRACKED_IPS = 10_000
 
 
-def _check_limits(ip: str) -> None:
+def client_ip(request: Request) -> str:
+    """Vercel's edge sets x-real-ip itself; a client cannot spoof it the way it can prepend
+    entries to x-forwarded-for. Off Vercel, fall back to the socket peer."""
+    return request.headers.get("x-real-ip") or (request.client.host if request.client else "unknown")
+
+
+def _check_rate(ip: str) -> None:
     s = get_settings()
     now = time.time()
-    q = _hits[ip]
-    while q and now - q[0] > 60:
-        q.popleft()
-    if len(q) >= s.rate_limit_per_min:
-        raise HTTPException(429, f"rate limit: {s.rate_limit_per_min} questions per minute")
-    q.append(now)
-    today = time.strftime("%Y-%m-%d")
-    if _day["date"] != today:
-        _day.update(date=today, llm_calls=0)
+    with _lock:
+        if len(_hits) > MAX_TRACKED_IPS:  # bound memory: forget idle clients
+            for k in [k for k, q in _hits.items() if not q or now - q[-1] > 60]:
+                del _hits[k]
+        q = _hits[ip]
+        while q and now - q[0] > 60:
+            q.popleft()
+        if len(q) >= s.rate_limit_per_min:
+            raise HTTPException(429, f"rate limit: {s.rate_limit_per_min} questions per minute")
+        q.append(now)
+
+
+def _reserve_llm_call() -> bool:
+    """Atomically take one slot of today's LLM budget (False when it is spent)."""
+    with _lock:
+        today = time.strftime("%Y-%m-%d")
+        if _day["date"] != today:
+            _day.update(date=today, llm_calls=0)
+        if _day["llm_calls"] >= get_settings().daily_llm_cap:
+            return False
+        _day["llm_calls"] += 1
+        return True
+
+
+def _refund_llm_call() -> None:
+    with _lock:
+        _day["llm_calls"] = max(0, _day["llm_calls"] - 1)
 
 
 @app.post("/query")
 def query(body: QueryIn, request: Request) -> dict:
-    ip = (request.headers.get("x-forwarded-for") or (request.client.host if request.client else "?")).split(",")[0]
-    _check_limits(ip)
+    _check_rate(client_ip(request))
     filters = {k: v for k, v in (body.filters.model_dump() if body.filters else {}).items() if v}
-    over_cap = _day["llm_calls"] >= get_settings().daily_llm_cap
+    reserved = _reserve_llm_call()
     try:
-        out = service.answer(body.question, body.k, filters, generate_answer=not over_cap)
+        out = service.answer(body.question, body.k, filters, generate_answer=reserved)
     except ValueError as e:
+        if reserved:
+            _refund_llm_call()
         raise HTTPException(422, str(e)) from e
     except LLMError as e:
-        raise HTTPException(503, f"generator unavailable: {e}") from e
-    if out["model"]["generator"]:
-        _day["llm_calls"] += 1
+        raise HTTPException(503, "generator unavailable, try again shortly") from e
+    if reserved and not out["model"]["generator"]:
+        _refund_llm_call()  # guard abstained before the LLM: the slot was not used
+    over_cap = not reserved
     if over_cap:
         out["note"] = "daily LLM budget for this public demo is used up; showing retrieval results only"
     return out
