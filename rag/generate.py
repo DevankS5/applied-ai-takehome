@@ -43,7 +43,7 @@ def generate(question: str, rows: list[dict], provider: str | None = None, model
     s = get_settings()
     provider, model = provider or s.gen_provider, model or s.gen_model
     user = f"Context passages:\n\n{format_context(rows)}\n\nQuestion: {question}\nAnswer:"
-    res = chat(provider, model, user, system=SYSTEM, temperature=0.0, max_tokens=s.gen_max_tokens)
+    res = chat(provider, model, user, system=SYSTEM, temperature=0.0, max_tokens=s.gen_max_tokens, cache_dir=s.llm_cache_dir)
     text = res.text.strip()
     abstained = ABSTAIN in text or not text
     nums = [int(n) for n in re.findall(r"\[(\d+)\]", text)]

@@ -29,6 +29,7 @@ class Settings(BaseSettings):
     gen_provider: str = "groq"
     gen_model: str = "llama-3.3-70b-versatile"
     gen_max_tokens: int = 400
+    llm_cache_dir: str | None = None  # eval harnesses set this; serverless disks are read-only
     log_level: str = "INFO"
     # Public demo protection
     rate_limit_per_min: int = 6
