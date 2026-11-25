@@ -47,9 +47,12 @@ MAX_TRACKED_IPS = 10_000
 
 
 def client_ip(request: Request) -> str:
-    """Vercel's edge sets x-real-ip itself; a client cannot spoof it the way it can prepend
-    entries to x-forwarded-for. Off Vercel, fall back to the socket peer."""
-    return request.headers.get("x-real-ip") or (request.client.host if request.client else "unknown")
+    """Socket peer by default. x-real-ip is honoured only when RAG_TRUST_X_REAL_IP=1, i.e. when the
+    deployment sits behind a proxy known to overwrite it (Vercel's edge does). Never X-Forwarded-For,
+    whose left-most entry the client controls."""
+    if get_settings().trust_x_real_ip and request.headers.get("x-real-ip"):
+        return request.headers["x-real-ip"]
+    return request.client.host if request.client else "unknown"
 
 
 def _check_rate(ip: str) -> None:

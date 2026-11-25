@@ -33,6 +33,7 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     # Public demo protection
     rate_limit_per_min: int = 6
+    trust_x_real_ip: bool = False  # only behind a proxy that overwrites x-real-ip
     daily_llm_cap: int = 300
 
 
