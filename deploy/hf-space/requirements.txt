@@ -1,0 +1,10 @@
+# Runtime deps of the repo; gradio, fastapi and uvicorn come with the Gradio SDK image.
+lancedb==0.41.0
+pyarrow
+fastembed==0.9.1
+pydantic-settings
+httpx
+pypdf
+beautifulsoup4
+pyyaml
+numpy
