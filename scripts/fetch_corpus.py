@@ -29,7 +29,19 @@ MANIFEST = ROOT / "data/corpus/manifest.yaml"
 RAW = ROOT / "data/corpus/raw"
 LOCK = ROOT / "data/corpus/corpus.lock.json"
 EXT = {"pdf": ".pdf", "html": ".html", "md": ".md"}
-HEADERS = {"User-Agent": "applied-ai-takehome-corpus-fetcher/0.2 (research use)"}
+# Wikimedia's robot policy asks for a contact URL in the User-Agent; shared cloud IPs get throttled without one.
+HEADERS = {"User-Agent": "applied-ai-takehome-corpus-fetcher/0.3 (+https://github.com/DevankS5/applied-ai-takehome)"}
+
+
+def get(client: httpx.Client, url: str, tries: int = 5) -> bytes:
+    """GET with backoff on throttling (403/429) and server errors; arXiv and Wikipedia both throttle bursts."""
+    for attempt in range(tries):
+        r = client.get(url)
+        if r.status_code not in (403, 429, 500, 502, 503, 504) or attempt == tries - 1:
+            r.raise_for_status()
+            return r.content
+        time.sleep(float(r.headers.get("retry-after", 2 ** (attempt + 1))))
+    raise AssertionError("unreachable")
 
 
 def text_hash(path: Path) -> str:
@@ -50,10 +62,9 @@ def main() -> int:
         for d in docs:
             path = RAW / f"{d['id']}{EXT[d['type']]}"
             if not path.exists():
-                r = client.get(d["url"])
-                r.raise_for_status()
-                path.write_bytes(r.content)
-                print(f"fetched  {path.name:<34} {len(r.content)/1024:8.1f} KB")
+                content = get(client, d["url"])
+                path.write_bytes(content)
+                print(f"fetched  {path.name:<34} {len(content)/1024:8.1f} KB")
                 time.sleep(1)  # be polite to arXiv / Wikipedia
             digest = text_hash(path)
             if d["id"] not in lock:
