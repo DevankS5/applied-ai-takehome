@@ -131,7 +131,7 @@ def exp_mtbench(n: int = 30) -> dict:
     return {"source": "lmsys/mt_bench_human_judgments (expert votes, first turn)", "naive": stats("naive"), "v2": stats("v2"), "rows": rows}
 
 
-def exp_retest(cases, temps=(0.7,), samples: int = 3, n_point: int = 16, n_pair: int = 15) -> dict:
+def exp_retest(cases, temps=(0.7,), samples: int = 3, n_point: int = 12, n_pair: int = 10) -> dict:  # sized to the free daily quota
     items = [p for p in probes.build(cases) if p.category in ("terse_correct", "confident_wrong", "padded_correct", "verbose_wrong")][:n_point]
     out = {}
     for t in temps:

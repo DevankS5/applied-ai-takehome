@@ -1,0 +1,8 @@
+{
+  "log": "logs/judge_audit.jsonl",
+  "parsed": 386,
+  "unparseable": 15,
+  "rungs": {
+    "strict": 386
+  }
+}
