@@ -163,16 +163,16 @@ def exp_retest(cases, temps=(0.7,), samples: int = 3, n_point: int = 16, n_pair:
 def exp_selfpref(cases, n: int = 12) -> dict:
     """Self-preference = P(judge of family F picks F's answer) - P(neutral judge picks F's answer)."""
     picked = [c for c in cases if c.category != "safety"][:n]
-    llama = GenConfig(name="llama70b", provider="groq", model="llama-3.3-70b-versatile")
+    oss = GenConfig(name="gptoss120b", provider="groq", model="openai/gpt-oss-120b")
     gem = GenConfig(name="gemini", provider="gemini", model="gemini-3.5-flash-lite")
     judges = {
         "gemini": JudgeConfig(name="judge-gemini", provider="gemini", model="gemini-3.5-flash-lite", prompt="v2"),
-        "llama": JudgeConfig(name="judge-llama70b", provider="groq", model="llama-3.3-70b-versatile", prompt="v2"),
-        "gpt-oss (neutral)": JudgeConfig(name="judge-gptoss", provider="groq", model="openai/gpt-oss-120b", prompt="v2"),
+        "gpt-oss": JudgeConfig(name="judge-gptoss120b", provider="groq", model="openai/gpt-oss-120b", prompt="v2"),
+        "qwen (neutral)": JudgeConfig(name="judge-qwen", provider="groq", model="qwen/qwen3.8-27b", prompt="v2"),
     }
     rows = []
     for c in picked:
-        x, y = generate(c, llama), generate(c, gem)  # x = Llama answer (label A), y = Gemini answer (label B)
+        x, y = generate(c, oss), generate(c, gem)  # x = gpt-oss answer (label A), y = Gemini answer (label B)
         rec = {"id": c.id}
         for name, jc in judges.items():
             r = judge_pair_both_orders(c, x.model_output, y.model_output, jc, tag="selfpref")
@@ -183,10 +183,10 @@ def exp_selfpref(cases, n: int = 12) -> dict:
         v = [r[judge] for r in rows if r[judge]]
         return round(sum(w == label for w in v) / len(v), 4) if v else float("nan")
 
-    res = {j: {"llama_wins": share(j, "A"), "gemini_wins": share(j, "B"), "ties": share(j, "tie")} for j in judges}
+    res = {j: {"gptoss_wins": share(j, "A"), "gemini_wins": share(j, "B"), "ties": share(j, "tie")} for j in judges}
     res["self_preference"] = {
-        "gemini_judge_for_gemini": round(res["gemini"]["gemini_wins"] - res["gpt-oss (neutral)"]["gemini_wins"], 4),
-        "llama_judge_for_llama": round(res["llama"]["llama_wins"] - res["gpt-oss (neutral)"]["llama_wins"], 4),
+        "gemini_judge_for_gemini": round(res["gemini"]["gemini_wins"] - res["qwen (neutral)"]["gemini_wins"], 4),
+        "gptoss_judge_for_gptoss": round(res["gpt-oss"]["gptoss_wins"] - res["qwen (neutral)"]["gptoss_wins"], 4),
     }
     res["rows"] = rows
     return res

@@ -27,8 +27,6 @@ import httpx
 PRICES = {
     "gemini-3.5-flash-lite": (0.10, 0.40),
     "gemini-3.1-flash-lite": (0.10, 0.40),
-    "llama-3.3-70b-versatile": (0.59, 0.79),
-    "llama-3.1-8b-instant": (0.05, 0.08),
     "openai/gpt-oss-120b": (0.15, 0.60),
     "openai/gpt-oss-20b": (0.075, 0.30),
 }
@@ -109,6 +107,8 @@ def _groq(model, system, user, temperature, max_tokens, json_mode, client):
         body["response_format"] = {"type": "json_object"}
     if model.startswith("openai/gpt-oss"):
         body["reasoning_effort"] = "low"
+    elif model.startswith("qwen/"):
+        body["reasoning_format"] = "hidden"  # keep the think block out of the content we parse
     r = client.post(
         "https://api.groq.com/openai/v1/chat/completions",
         json=body,

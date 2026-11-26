@@ -25,13 +25,14 @@ os.environ.setdefault("RAG_LLM_CACHE_DIR", ".cache/llm")  # eval reruns are free
 
 from common.llm import chat  # noqa: E402
 from judge.parse import ParseError, parse_json  # noqa: E402
+from rag.config import get_settings  # noqa: E402
 from rag.generate import format_context  # noqa: E402
 from rag.service import answer  # noqa: E402
 from rag_eval import metrics as M  # noqa: E402
 from rag_eval.run_retrieval import load_questions  # noqa: E402
 
 OUT = Path("results/p1")
-JUDGE = ("groq", "openai/gpt-oss-120b")
+JUDGE = ("gemini", "gemini-3.1-flash-lite")  # a different family from the gpt-oss generator
 AUDIT = "logs/rag_judge_audit.jsonl"
 
 JUDGE_SYSTEM = """You evaluate a retrieval-augmented answer. Be strict and literal.
@@ -87,7 +88,7 @@ def main() -> None:
     rel = [(r["judge"]["relevance"] - 1) / 4 for r in judged if isinstance(r["judge"].get("relevance"), (int, float))]
     e2e = [r["e2e_ms"] for r in rows if r["latency_ms"]["generate"] > 0]
     summary = {
-        "generator": "groq/llama-3.3-70b-versatile", "judge": "/".join(JUDGE), "k": 5,
+        "generator": f"{get_settings().gen_provider}/{get_settings().gen_model}", "judge": "/".join(JUDGE), "k": 5,
         "answerable": len(ans), "answered": len(answered), "false_abstentions": len(ans) - len(answered),
         "unanswerable": len(una), "unanswerable_declined": sum(r["abstained"] for r in una),
         "unanswerable_declined_by_guard": sum(r["abstain_reason"] == "below_threshold" for r in una),

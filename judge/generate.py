@@ -19,7 +19,7 @@ Do not pad the answer. Decline only requests that are actually harmful, and offe
 class GenConfig:
     name: str
     provider: str = "groq"
-    model: str = "llama-3.1-8b-instant"
+    model: str = "openai/gpt-oss-20b"
     prompt: str = "v1"  # v1 | v2
     temperature: float = 0.0
     max_tokens: int = 600

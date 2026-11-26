@@ -27,8 +27,8 @@ class Settings(BaseSettings):
     # Calibrated on the eval set (rag_eval/run_retrieval.py: lowest answerable top-1 minus 0.05; results/p1/retrieval.md).
     min_score: float = 0.58
     gen_provider: str = "groq"
-    gen_model: str = "llama-3.3-70b-versatile"
-    gen_max_tokens: int = 400
+    gen_model: str = "openai/gpt-oss-120b"
+    gen_max_tokens: int = 700  # gpt-oss counts its (low-effort) reasoning tokens against this
     llm_cache_dir: str | None = None  # eval harnesses set this; serverless disks are read-only
     log_level: str = "INFO"
     # Public demo protection
