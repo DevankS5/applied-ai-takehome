@@ -34,9 +34,15 @@ HEADERS = {"User-Agent": "applied-ai-takehome-corpus-fetcher/0.3 (+https://githu
 
 
 def get(client: httpx.Client, url: str, tries: int = 5) -> bytes:
-    """GET with backoff on throttling (403/429) and server errors; arXiv and Wikipedia both throttle bursts."""
+    """GET with backoff on throttling (403/429), server errors and network blips; arXiv and Wikipedia throttle bursts."""
     for attempt in range(tries):
-        r = client.get(url)
+        try:
+            r = client.get(url)
+        except httpx.TransportError:  # DNS or connection blip
+            if attempt == tries - 1:
+                raise
+            time.sleep(2 ** (attempt + 1))
+            continue
         if r.status_code not in (403, 429, 500, 502, 503, 504) or attempt == tries - 1:
             r.raise_for_status()
             return r.content
