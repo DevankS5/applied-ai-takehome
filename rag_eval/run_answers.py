@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from pathlib import Path
 
 import numpy as np
@@ -58,6 +59,20 @@ def judge_answer(question: str, ans: str, rows: list[dict]) -> dict:
             "relevance_reason": obj.get("relevance_reason"), "tokens": res.prompt_tokens + res.completion_tokens}
 
 
+NUM = re.compile(r"(?<![\[\w.])(\d[\d,]*(?:\.\d+)?)(?![\]\w])")  # a number, not a [n] citation marker
+
+
+def plant_error(text: str) -> str | None:
+    """Negative control for the judge: change the first number in an answer. A judge that is reading the passages
+    must mark that claim unsupported; one that rubber-stamps fluent cited text will not."""
+    m = NUM.search(text)
+    if not m:
+        return None
+    v = float(m.group(1).replace(",", ""))
+    new = str(int(v * 3 + 7)) if v.is_integer() else f"{v * 3 + 0.7:.2f}"
+    return text[:m.start(1)] + new + text[m.end(1):]
+
+
 def main() -> None:
     qs = load_questions()
     rows = []
@@ -74,6 +89,11 @@ def main() -> None:
             rec["contains"] = M.contains_match(out["answer"], q["answer"])
             rec["f1"] = round(M.token_f1(out["answer"], q["answer"]), 4)
             rec["judge"] = judge_answer(q["question"], out["answer"], [{**s} for s in out["sources"]])
+            wrong = plant_error(out["answer"])
+            if wrong:
+                j = judge_answer(q["question"], wrong, [{**s} for s in out["sources"]])
+                rec["planted_error"] = {"answer": wrong, "faithfulness": j.get("faithfulness"),
+                                        "caught": j.get("ok", False) and (j.get("faithfulness") or 0) < 1}
         elif not q["evidence"] and not out["abstained"]:
             # Answered an unanswerable question: still measure whether the answer stuck to the passages.
             rec["judge"] = judge_answer(q["question"], out["answer"], [{**s} for s in out["sources"]])
@@ -104,6 +124,8 @@ def main() -> None:
         "e2e_p50_ms": round(M.pct(e2e, 50), 1), "e2e_p95_ms": round(M.pct(e2e, 95), 1),
         "generator_tokens": {"prompt": sum(r["tokens"]["prompt"] for r in rows), "completion": sum(r["tokens"]["completion"] for r in rows)},
         "judge_tokens": sum(r.get("judge", {}).get("tokens", 0) for r in rows),
+        "planted_error_control": {"answers": sum("planted_error" in r for r in rows),
+                                  "caught": sum(r.get("planted_error", {}).get("caught", False) for r in rows)},
     }
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "answers.json").write_text(json.dumps({"summary": summary, "rows": rows}, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -119,6 +141,8 @@ def main() -> None:
           f"| Answered (answerable) | {s['answered']}/{s['answerable']} | false abstentions: {s['false_abstentions']} |",
           f"| Declined (unanswerable) | {s['unanswerable_declined']}/{s['unanswerable']} | guard: {s['unanswerable_declined_by_guard']}, model: {s['unanswerable_declined_by_model']} |",
           f"| Answers citing a valid passage | {s['answers_with_valid_citation']} | invalid citation markers: {s['invalid_citations_total']} |",
+          f"| Judge control: planted wrong numbers caught | {s['planted_error_control']['caught']}/{s['planted_error_control']['answers']} "
+          "| first number in each answer changed; caught = judge marks a claim unsupported |",
           f"| End-to-end p50 / p95 | {s['e2e_p50_ms']} / {s['e2e_p95_ms']} ms | embed + retrieve + generation API latency |"]
     (OUT / "answers.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print("\n".join(md))

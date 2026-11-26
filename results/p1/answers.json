@@ -1,0 +1,1389 @@
+{
+  "summary": {
+    "generator": "groq/openai/gpt-oss-120b",
+    "judge": "gemini/gemini-3.1-flash-lite",
+    "k": 5,
+    "answerable": 25,
+    "answered": 24,
+    "false_abstentions": 1,
+    "unanswerable": 5,
+    "unanswerable_declined": 5,
+    "unanswerable_declined_by_guard": 2,
+    "unanswerable_declined_by_model": 3,
+    "faithfulness_mean": 1.0,
+    "faithfulness_all_claims_supported": 1.0,
+    "answer_relevance_mean": 1.0,
+    "em": 0.0,
+    "contains_em": 0.2083,
+    "f1": 0.3067,
+    "answers_with_valid_citation": 1.0,
+    "invalid_citations_total": 0,
+    "e2e_p50_ms": 870.6,
+    "e2e_p95_ms": 1646.1,
+    "generator_tokens": {
+      "prompt": 56162,
+      "completion": 2183
+    },
+    "judge_tokens": 52717,
+    "planted_error_control": {
+      "answers": 11,
+      "caught": 11
+    }
+  },
+  "rows": [
+    {
+      "id": "q01",
+      "answerable": true,
+      "question": "What is the default value of hnsw.ef_search in pgvector?",
+      "gold": "40",
+      "answer": "The default value of `hnsw.ef_search` is 40 [1].",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        1
+      ],
+      "invalid_citations": [],
+      "top_score": 0.7541,
+      "latency_ms": {
+        "embed": 731.9,
+        "retrieve": 123.8,
+        "generate": 1006.0,
+        "total": 950.0
+      },
+      "tokens": {
+        "prompt": 1965,
+        "completion": 81
+      },
+      "e2e_ms": 1861.7,
+      "em": 0.0,
+      "contains": 1.0,
+      "f1": 0.25,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "The default value of hnsw.ef_search is 40.",
+            "supported": true,
+            "passage": 1
+          }
+        ],
+        "n_claims": 1,
+        "supported": 1,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly and accurately states the default value of hnsw.ef_search as provided in the documentation.",
+        "tokens": 2167
+      },
+      "planted_error": {
+        "answer": "The default value of `hnsw.ef_search` is 127 [1].",
+        "faithfulness": 0.0,
+        "caught": true
+      }
+    },
+    {
+      "id": "q02",
+      "answerable": true,
+      "question": "What are pgvector's default HNSW index parameters m and ef_construction?",
+      "gold": "m = 16 and ef_construction = 64",
+      "answer": "pgvector’s HNSW index uses a default `m` (maximum connections per layer) of 16 and a default `ef_construction` (size of the dynamic candidate list during graph construction) of 64[2].",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        2
+      ],
+      "invalid_citations": [],
+      "top_score": 0.7912,
+      "latency_ms": {
+        "embed": 12.5,
+        "retrieve": 106.1,
+        "generate": 1127.1,
+        "total": 132.5
+      },
+      "tokens": {
+        "prompt": 1992,
+        "completion": 89
+      },
+      "e2e_ms": 1245.7,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.2667,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "pgvector’s HNSW index uses a default m (maximum connections per layer) of 16",
+            "supported": true,
+            "passage": 2
+          },
+          {
+            "claim": "pgvector’s HNSW index uses a default ef_construction (size of the dynamic candidate list during graph construction) of 64",
+            "supported": true,
+            "passage": 2
+          }
+        ],
+        "n_claims": 2,
+        "supported": 2,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly and accurately provides the default values for m and ef_construction as specified in the provided documentation.",
+        "tokens": 2282
+      },
+      "planted_error": {
+        "answer": "pgvector’s HNSW index uses a default `m` (maximum connections per layer) of 55 and a default `ef_construction` (size of the dynamic candidate list during graph construction) of 64[2].",
+        "faithfulness": 0.5,
+        "caught": true
+      }
+    },
+    {
+      "id": "q03",
+      "answerable": true,
+      "question": "Up to how many dimensions can a pgvector vector column have and still be indexed with HNSW?",
+      "gold": "2,000 dimensions",
+      "answer": "A pgvector `vector` column can be indexed with HNSW for up to 2,000 dimensions. [2]",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        2
+      ],
+      "invalid_citations": [],
+      "top_score": 0.8104,
+      "latency_ms": {
+        "embed": 14.0,
+        "retrieve": 131.8,
+        "generate": 719.9,
+        "total": 158.1
+      },
+      "tokens": {
+        "prompt": 1954,
+        "completion": 71
+      },
+      "e2e_ms": 865.7,
+      "em": 0.0,
+      "contains": 1.0,
+      "f1": 0.25,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "A pgvector vector column can be indexed with HNSW for up to 2,000 dimensions.",
+            "supported": true,
+            "passage": 2
+          }
+        ],
+        "n_claims": 1,
+        "supported": 1,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly addresses the question using the information provided in the passage regarding the supported dimensions for the 'vector' type.",
+        "tokens": 2160
+      },
+      "planted_error": {
+        "answer": "A pgvector `vector` column can be indexed with HNSW for up to 6007 dimensions. [2]",
+        "faithfulness": 0.0,
+        "caught": true
+      }
+    },
+    {
+      "id": "q04",
+      "answerable": true,
+      "question": "What language is sqlite-vec written in, and what are its dependencies?",
+      "gold": "pure C with no dependencies",
+      "answer": "sqlite-vec is written in pure C and has no dependencies[1].",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        1
+      ],
+      "invalid_citations": [],
+      "top_score": 0.8098,
+      "latency_ms": {
+        "embed": 24.6,
+        "retrieve": 97.5,
+        "generate": 494.1,
+        "total": 135.1
+      },
+      "tokens": {
+        "prompt": 703,
+        "completion": 64
+      },
+      "e2e_ms": 616.2,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.4,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "sqlite-vec is written in pure C",
+            "supported": true,
+            "passage": 1
+          },
+          {
+            "claim": "sqlite-vec has no dependencies",
+            "supported": true,
+            "passage": 1
+          }
+        ],
+        "n_claims": 2,
+        "supported": 2,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly and accurately addresses both parts of the question using the provided passage.",
+        "tokens": 850
+      }
+    },
+    {
+      "id": "q05",
+      "answerable": true,
+      "question": "What storage format is LanceDB built on?",
+      "gold": "the Lance columnar format",
+      "answer": "LanceDB is built on the Lance columnar format for storage[1][2]",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        1,
+        2
+      ],
+      "invalid_citations": [],
+      "top_score": 0.7918,
+      "latency_ms": {
+        "embed": 12.2,
+        "retrieve": 90.3,
+        "generate": 669.9,
+        "total": 117.2
+      },
+      "tokens": {
+        "prompt": 1642,
+        "completion": 73
+      },
+      "e2e_ms": 772.4,
+      "em": 0.0,
+      "contains": 1.0,
+      "f1": 0.5,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "LanceDB is built on the Lance columnar format for storage.",
+            "supported": true,
+            "passage": 1
+          }
+        ],
+        "n_claims": 1,
+        "supported": 1,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly and accurately identifies the storage format used by LanceDB based on the provided passages.",
+        "tokens": 1777
+      }
+    },
+    {
+      "id": "q06",
+      "answerable": true,
+      "question": "What language is Faiss written in, and which language does it provide complete wrappers for?",
+      "gold": "C++, with complete wrappers for Python/numpy",
+      "answer": "Faiss is written in C++ and it provides complete wrappers for Python/numpy[1].",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        1
+      ],
+      "invalid_citations": [],
+      "top_score": 0.7048,
+      "latency_ms": {
+        "embed": 11.0,
+        "retrieve": 116.7,
+        "generate": 554.3,
+        "total": 143.6
+      },
+      "tokens": {
+        "prompt": 1844,
+        "completion": 71
+      },
+      "e2e_ms": 682.0,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.4444,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "Faiss is written in C++.",
+            "supported": true,
+            "passage": 1
+          },
+          {
+            "claim": "Faiss provides complete wrappers for Python/numpy.",
+            "supported": true,
+            "passage": 1
+          }
+        ],
+        "n_claims": 2,
+        "supported": 2,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly and accurately addresses both parts of the user's question using the provided source material.",
+        "tokens": 1993
+      }
+    },
+    {
+      "id": "q07",
+      "answerable": true,
+      "question": "What values are usually chosen for the BM25 free parameters k1 and b?",
+      "gold": "k1 in [1.2, 2.0] and b = 0.75",
+      "answer": "k₁ is typically set to a value between 1.2 and 2.0, and b is usually chosen as 0.75 [2]",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        2
+      ],
+      "invalid_citations": [],
+      "top_score": 0.7631,
+      "latency_ms": {
+        "embed": 10.1,
+        "retrieve": 91.5,
+        "generate": 710.8,
+        "total": 114.2
+      },
+      "tokens": {
+        "prompt": 1812,
+        "completion": 71
+      },
+      "e2e_ms": 812.4,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.48,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "k₁ is typically set to a value between 1.2 and 2.0",
+            "supported": true,
+            "passage": 2
+          },
+          {
+            "claim": "b is usually chosen as 0.75",
+            "supported": true,
+            "passage": 2
+          }
+        ],
+        "n_claims": 2,
+        "supported": 2,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly and accurately provides the standard values for the BM25 parameters k1 and b as stated in the provided text.",
+        "tokens": 2006
+      },
+      "planted_error": {
+        "answer": "k₁ is typically set to a value between 4.30 and 2.0, and b is usually chosen as 0.75 [2]",
+        "faithfulness": 0.5,
+        "caught": true
+      }
+    },
+    {
+      "id": "q08",
+      "answerable": true,
+      "question": "What does the BM in Okapi BM25 stand for?",
+      "gold": "best matching",
+      "answer": "BM stands for “best matching”[1]",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        1
+      ],
+      "invalid_citations": [],
+      "top_score": 0.8137,
+      "latency_ms": {
+        "embed": 10.9,
+        "retrieve": 149.3,
+        "generate": 691.5,
+        "total": 176.7
+      },
+      "tokens": {
+        "prompt": 1821,
+        "completion": 47
+      },
+      "e2e_ms": 851.7,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.0,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "BM stands for “best matching”.",
+            "supported": true,
+            "passage": 1
+          }
+        ],
+        "n_claims": 1,
+        "supported": 1,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly and accurately addresses the question using the provided passage.",
+        "tokens": 1990
+      }
+    },
+    {
+      "id": "q09",
+      "answerable": true,
+      "question": "How is nDCG obtained from DCG?",
+      "gold": "DCG divided by the ideal DCG (IDCG)",
+      "answer": "nDCG is computed by dividing the DCG value for a given rank p by the ideal DCG (IDCG) for that rank, i.e., nDCGₚ = DCGₚ / IDCGₚ [2][3][4].",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        2,
+        3,
+        4
+      ],
+      "invalid_citations": [],
+      "top_score": 0.7251,
+      "latency_ms": {
+        "embed": 8.1,
+        "retrieve": 92.3,
+        "generate": 790.4,
+        "total": 114.2
+      },
+      "tokens": {
+        "prompt": 2089,
+        "completion": 96
+      },
+      "e2e_ms": 890.8,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.3448,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "nDCG is computed by dividing the DCG value for a given rank p by the ideal DCG (IDCG) for that rank.",
+            "supported": true,
+            "passage": 2
+          },
+          {
+            "claim": "The formula for nDCG is nDCGₚ = DCGₚ / IDCGₚ.",
+            "supported": true,
+            "passage": 2
+          }
+        ],
+        "n_claims": 2,
+        "supported": 2,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly and accurately explains how nDCG is obtained from DCG using the formula provided in the passages.",
+        "tokens": 2295
+      }
+    },
+    {
+      "id": "q10",
+      "answerable": true,
+      "question": "What reciprocal rank does a query get when none of the proposed results is correct?",
+      "gold": "0",
+      "answer": "The reciprocal rank is 0 when none of the proposed results are correct [1]",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        1
+      ],
+      "invalid_citations": [],
+      "top_score": 0.8245,
+      "latency_ms": {
+        "embed": 32.1,
+        "retrieve": 97.7,
+        "generate": 840.7,
+        "total": 143.8
+      },
+      "tokens": {
+        "prompt": 2216,
+        "completion": 40
+      },
+      "e2e_ms": 970.5,
+      "em": 0.0,
+      "contains": 1.0,
+      "f1": 0.1538,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "The reciprocal rank is 0 when none of the proposed results are correct",
+            "supported": true,
+            "passage": 1
+          }
+        ],
+        "n_claims": 1,
+        "supported": 1,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly and accurately addresses the question using the provided passage.",
+        "tokens": 2281
+      },
+      "planted_error": {
+        "answer": "The reciprocal rank is 7 when none of the proposed results are correct [1]",
+        "faithfulness": 0.0,
+        "caught": true
+      }
+    },
+    {
+      "id": "q11",
+      "answerable": true,
+      "question": "In the Landis and Koch guidelines, which range of Cohen's kappa counts as almost perfect agreement?",
+      "gold": "0.81-1",
+      "answer": "The Landis and Koch guidelines define “almost perfect” agreement as a kappa value between 0.81 and 1. [5]",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        5
+      ],
+      "invalid_citations": [],
+      "top_score": 0.7382,
+      "latency_ms": {
+        "embed": 11.9,
+        "retrieve": 106.4,
+        "generate": 856.2,
+        "total": 132.3
+      },
+      "tokens": {
+        "prompt": 2202,
+        "completion": 82
+      },
+      "e2e_ms": 974.5,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.0,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "The Landis and Koch guidelines define “almost perfect” agreement as a kappa value between 0.81 and 1.",
+            "supported": true,
+            "passage": 5
+          }
+        ],
+        "n_claims": 1,
+        "supported": 1,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly and accurately identifies the range for \"almost perfect\" agreement according to the Landis and Koch guidelines as stated in the provided passage.",
+        "tokens": 2356
+      },
+      "planted_error": {
+        "answer": "The Landis and Koch guidelines define “almost perfect” agreement as a kappa value between 3.13 and 1. [5]",
+        "faithfulness": 0.0,
+        "caught": true
+      }
+    },
+    {
+      "id": "q12",
+      "answerable": true,
+      "question": "In what year was retrieval-augmented generation first proposed?",
+      "gold": "2020",
+      "answer": "Retrieval-augmented generation was first proposed in 2020[1].",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        1
+      ],
+      "invalid_citations": [],
+      "top_score": 0.7822,
+      "latency_ms": {
+        "embed": 11.5,
+        "retrieve": 137.0,
+        "generate": 3671.5,
+        "total": 166.0
+      },
+      "tokens": {
+        "prompt": 2152,
+        "completion": 61
+      },
+      "e2e_ms": 3820.0,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.0,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "Retrieval-augmented generation was first proposed in 2020.",
+            "supported": true,
+            "passage": 1
+          }
+        ],
+        "n_claims": 1,
+        "supported": 1,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly addresses the question and is supported by the provided passage.",
+        "tokens": 2283
+      },
+      "planted_error": {
+        "answer": "Retrieval-augmented generation was first proposed in 6067[1].",
+        "faithfulness": 0.0,
+        "caught": true
+      }
+    },
+    {
+      "id": "q13",
+      "answerable": true,
+      "question": "Which techniques are commonly used by vector databases for similarity search on high-dimensional vectors?",
+      "gold": "HNSW graphs, locality-sensitive hashing, product quantization and inverted files",
+      "answer": "Vector databases commonly use Hierarchical Navigable Small World (HNSW) graphs, locality‑sensitive hashing (LSH) and sketching, product quantization (PQ), and inverted file structures for similarity search on high‑dimensional vectors [1][3].",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        1,
+        3
+      ],
+      "invalid_citations": [],
+      "top_score": 0.8622,
+      "latency_ms": {
+        "embed": 10.8,
+        "retrieve": 103.7,
+        "generate": 824.7,
+        "total": 128.6
+      },
+      "tokens": {
+        "prompt": 2200,
+        "completion": 96
+      },
+      "e2e_ms": 939.2,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.3684,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "Vector databases commonly use Hierarchical Navigable Small World (HNSW) graphs for similarity search on high-dimensional vectors.",
+            "supported": true,
+            "passage": 1
+          },
+          {
+            "claim": "Vector databases commonly use locality-sensitive hashing (LSH) and sketching for similarity search on high-dimensional vectors.",
+            "supported": true,
+            "passage": 1
+          },
+          {
+            "claim": "Vector databases commonly use product quantization (PQ) for similarity search on high-dimensional vectors.",
+            "supported": true,
+            "passage": 1
+          },
+          {
+            "claim": "Vector databases commonly use inverted file structures for similarity search on high-dimensional vectors.",
+            "supported": true,
+            "passage": 1
+          }
+        ],
+        "n_claims": 4,
+        "supported": 4,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly lists the techniques mentioned in the provided text as common for similarity search in vector databases.",
+        "tokens": 2456
+      }
+    },
+    {
+      "id": "q14",
+      "answerable": true,
+      "question": "How do the RAG-Sequence and RAG-Token models differ in their use of retrieved documents?",
+      "gold": "RAG-Sequence uses the same document for every target token, RAG-Token can use a different document for each token",
+      "answer": "RAG‑Sequence treats the retrieved passage as a single latent variable and uses the same document to generate every token of the output sequence[1][2].  \nRAG‑Token, by contrast, draws a (potentially different) retrieved document for each target token, marginalizing over documents at every step so that the generator can incorporate content from multiple passages while producing the answer[1].",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        1,
+        2
+      ],
+      "invalid_citations": [],
+      "top_score": 0.8318,
+      "latency_ms": {
+        "embed": 10.6,
+        "retrieve": 33.7,
+        "generate": 822.1,
+        "total": 59.7
+      },
+      "tokens": {
+        "prompt": 2238,
+        "completion": 142
+      },
+      "e2e_ms": 866.4,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.3692,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "RAG-Sequence treats the retrieved passage as a single latent variable and uses the same document to generate every token of the output sequence.",
+            "supported": true,
+            "passage": 1
+          },
+          {
+            "claim": "RAG-Token draws a different retrieved document for each target token.",
+            "supported": true,
+            "passage": 1
+          },
+          {
+            "claim": "RAG-Token marginalizes over documents at every step so that the generator can incorporate content from multiple passages while producing the answer.",
+            "supported": true,
+            "passage": 1
+          }
+        ],
+        "n_claims": 3,
+        "supported": 3,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer accurately and concisely explains the technical difference between RAG-Sequence and RAG-Token regarding how they utilize retrieved documents during the generation process.",
+        "tokens": 2597
+      }
+    },
+    {
+      "id": "q15",
+      "answerable": true,
+      "question": "Which generator model do the RAG models of Lewis et al. use, and how many parameters does it have?",
+      "gold": "BART-large, 400M parameters",
+      "answer": "I can't answer that from the indexed documents.",
+      "abstained": true,
+      "abstain_reason": "model_abstained",
+      "citations": [],
+      "invalid_citations": [],
+      "top_score": 0.7425,
+      "latency_ms": {
+        "embed": 15.1,
+        "retrieve": 44.9,
+        "generate": 872.2,
+        "total": 77.1
+      },
+      "tokens": {
+        "prompt": 2198,
+        "completion": 86
+      },
+      "e2e_ms": 932.2
+    },
+    {
+      "id": "q16",
+      "answerable": true,
+      "question": "What serves as the non-parametric memory in the RAG models of Lewis et al.?",
+      "gold": "a dense vector index of Wikipedia accessed with a pre-trained neural retriever",
+      "answer": "The non‑parametric memory in Lewis et al.’s RAG models is a dense vector index of Wikipedia that is queried by a pre‑trained neural retriever (Dense Passage Retriever) to retrieve relevant documents. [1]",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        1
+      ],
+      "invalid_citations": [],
+      "top_score": 0.7869,
+      "latency_ms": {
+        "embed": 12.4,
+        "retrieve": 48.0,
+        "generate": 1017.0,
+        "total": 77.4
+      },
+      "tokens": {
+        "prompt": 1952,
+        "completion": 81
+      },
+      "e2e_ms": 1077.4,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.359,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "The non-parametric memory in Lewis et al.’s RAG models is a dense vector index of Wikipedia.",
+            "supported": true,
+            "passage": 1
+          },
+          {
+            "claim": "The index is queried by a pre-trained neural retriever (Dense Passage Retriever) to retrieve relevant documents.",
+            "supported": true,
+            "passage": 1
+          }
+        ],
+        "n_claims": 2,
+        "supported": 2,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer accurately identifies the non-parametric memory as a dense vector index of Wikipedia and correctly identifies the retrieval mechanism described in the passage.",
+        "tokens": 2180
+      }
+    },
+    {
+      "id": "q17",
+      "answerable": true,
+      "question": "How well do strong LLM judges like GPT-4 agree with human preferences according to the MT-Bench paper?",
+      "gold": "over 80% agreement, the same level as agreement between humans",
+      "answer": "Strong LLM judges such as GPT‑4 match human preferences very well, attaining agreement rates exceeding 80 % on MT‑Bench, which is comparable to the agreement observed between humans themselves[3][4]",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        3,
+        4
+      ],
+      "invalid_citations": [],
+      "top_score": 0.8245,
+      "latency_ms": {
+        "embed": 12.6,
+        "retrieve": 32.9,
+        "generate": 642.4,
+        "total": 59.0
+      },
+      "tokens": {
+        "prompt": 2216,
+        "completion": 87
+      },
+      "e2e_ms": 687.9,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.3333,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "Strong LLM judges such as GPT-4 match human preferences very well.",
+            "supported": true,
+            "passage": 3
+          },
+          {
+            "claim": "They attain agreement rates exceeding 80% on MT-Bench.",
+            "supported": true,
+            "passage": 3
+          },
+          {
+            "claim": "This agreement rate is comparable to the agreement observed between humans themselves.",
+            "supported": true,
+            "passage": 3
+          }
+        ],
+        "n_claims": 3,
+        "supported": 3,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly addresses the question using the findings from the provided passages, accurately citing the agreement rates and the comparison to human-human agreement.",
+        "tokens": 2494
+      },
+      "planted_error": {
+        "answer": "Strong LLM judges such as GPT‑19 match human preferences very well, attaining agreement rates exceeding 80 % on MT‑Bench, which is comparable to the agreement observed between humans themselves[3][4]",
+        "faithfulness": 0.6666666666666666,
+        "caught": true
+      }
+    },
+    {
+      "id": "q18",
+      "answerable": true,
+      "question": "Which limitations of the LLM-as-a-judge approach does the MT-Bench paper examine?",
+      "gold": "position bias, verbosity bias, self-enhancement bias and limited reasoning ability",
+      "answer": "The paper examines position bias, verbosity bias, self‑enhancement bias, and limited reasoning ability as limitations of the LLM‑as‑a‑judge approach[1][4].",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        1,
+        4
+      ],
+      "invalid_citations": [],
+      "top_score": 0.7637,
+      "latency_ms": {
+        "embed": 13.2,
+        "retrieve": 130.6,
+        "generate": 1017.9,
+        "total": 157.5
+      },
+      "tokens": {
+        "prompt": 2208,
+        "completion": 85
+      },
+      "e2e_ms": 1161.7,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.6429,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "The paper examines position bias, verbosity bias, self-enhancement bias, and limited reasoning ability as limitations of the LLM-as-a-judge approach.",
+            "supported": true,
+            "passage": 1
+          }
+        ],
+        "n_claims": 1,
+        "supported": 1,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly and accurately identifies the specific limitations mentioned in the paper.",
+        "tokens": 2390
+      }
+    },
+    {
+      "id": "q19",
+      "answerable": true,
+      "question": "How many questions does MT-bench contain?",
+      "gold": "80",
+      "answer": "MT‑bench consists of 80 multi‑turn questions[2].",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        2
+      ],
+      "invalid_citations": [],
+      "top_score": 0.7133,
+      "latency_ms": {
+        "embed": 7.8,
+        "retrieve": 74.0,
+        "generate": 800.8,
+        "total": 100.0
+      },
+      "tokens": {
+        "prompt": 2230,
+        "completion": 66
+      },
+      "e2e_ms": 882.6,
+      "em": 0.0,
+      "contains": 1.0,
+      "f1": 0.2857,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "MT-bench consists of 80 multi-turn questions.",
+            "supported": true,
+            "passage": 2
+          }
+        ],
+        "n_claims": 1,
+        "supported": 1,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly and accurately states the number of questions in MT-bench as specified in the provided text.",
+        "tokens": 2414
+      },
+      "planted_error": {
+        "answer": "MT‑bench consists of 247 multi‑turn questions[2].",
+        "faithfulness": 0.0,
+        "caught": true
+      }
+    },
+    {
+      "id": "q20",
+      "answerable": true,
+      "question": "Where in the input context do language models make the best use of relevant information, according to Lost in the Middle?",
+      "gold": "at the beginning or end of the input context; performance degrades in the middle",
+      "answer": "Language models achieve their highest performance when the relevant information is placed at the very beginning (primacy bias) or at the very end (recency bias) of the input context[2].",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        2
+      ],
+      "invalid_citations": [],
+      "top_score": 0.8601,
+      "latency_ms": {
+        "embed": 16.6,
+        "retrieve": 131.6,
+        "generate": 778.1,
+        "total": 160.4
+      },
+      "tokens": {
+        "prompt": 2072,
+        "completion": 75
+      },
+      "e2e_ms": 926.3,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.3889,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "Language models achieve their highest performance when the relevant information is placed at the very beginning (primacy bias) or at the very end (recency bias) of the input context.",
+            "supported": true,
+            "passage": 2
+          }
+        ],
+        "n_claims": 1,
+        "supported": 1,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly and accurately addresses the question using the provided source material.",
+        "tokens": 2258
+      }
+    },
+    {
+      "id": "q21",
+      "answerable": true,
+      "question": "Which two tasks does the Lost in the Middle paper use to study how models use long contexts?",
+      "gold": "multi-document question answering and key-value retrieval",
+      "answer": "The paper studies models’ use of long contexts with (i) a multi‑document question‑answering task and (ii) a synthetic key‑value retrieval task [2][3]",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        2,
+        3
+      ],
+      "invalid_citations": [],
+      "top_score": 0.8449,
+      "latency_ms": {
+        "embed": 9.9,
+        "retrieve": 55.6,
+        "generate": 809.3,
+        "total": 78.8
+      },
+      "tokens": {
+        "prompt": 2006,
+        "completion": 86
+      },
+      "e2e_ms": 874.8,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.16,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "The paper studies models’ use of long contexts with a multi-document question-answering task.",
+            "supported": true,
+            "passage": 1
+          },
+          {
+            "claim": "The paper studies models’ use of long contexts with a synthetic key-value retrieval task.",
+            "supported": true,
+            "passage": 3
+          }
+        ],
+        "n_claims": 2,
+        "supported": 2,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer correctly identifies the two tasks mentioned in the paper and provides the correct citations.",
+        "tokens": 2215
+      }
+    },
+    {
+      "id": "q22",
+      "answerable": true,
+      "question": "How does HNSW choose the maximum layer in which an element is present?",
+      "gold": "randomly, with an exponentially decaying probability distribution",
+      "answer": "HNSW assigns each element a maximum layer l that is drawn randomly according to an exponentially decaying (geometric) probability distribution [4][3].",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        3,
+        4
+      ],
+      "invalid_citations": [],
+      "top_score": 0.7186,
+      "latency_ms": {
+        "embed": 10.3,
+        "retrieve": 35.8,
+        "generate": 714.5,
+        "total": 57.9
+      },
+      "tokens": {
+        "prompt": 2126,
+        "completion": 72
+      },
+      "e2e_ms": 760.6,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.4,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "HNSW assigns each element a maximum layer l that is drawn randomly according to an exponentially decaying (geometric) probability distribution.",
+            "supported": true,
+            "passage": 4
+          }
+        ],
+        "n_claims": 1,
+        "supported": 1,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly and accurately addresses the question using the information provided in the passages.",
+        "tokens": 2204
+      }
+    },
+    {
+      "id": "q23",
+      "answerable": true,
+      "question": "How does RAGAS compute its faithfulness score?",
+      "gold": "F = |V| / |S|, the number of statements supported by the context divided by the total number of statements",
+      "answer": "RAGAS computes faithfulness by first generating a set of statements S from the answer and then using a verification prompt to ask the LLM whether each statement can be inferred from the retrieved context c(q); the LLM returns a verdict (Yes/No) for each statement [4].  \nThe number of statements that the LLM judges as supported is denoted |V|, and the final faithfulness score F is the proportion of supported statements, calculated as F = |V| / |S| [4].",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        4
+      ],
+      "invalid_citations": [],
+      "top_score": 0.7428,
+      "latency_ms": {
+        "embed": 8.7,
+        "retrieve": 25.9,
+        "generate": 652.6,
+        "total": 49.6
+      },
+      "tokens": {
+        "prompt": 2131,
+        "completion": 170
+      },
+      "e2e_ms": 687.2,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.275,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "RAGAS computes faithfulness by first generating a set of statements S from the answer.",
+            "supported": true,
+            "passage": 4
+          },
+          {
+            "claim": "RAGAS uses a verification prompt to ask the LLM whether each statement can be inferred from the retrieved context c(q).",
+            "supported": true,
+            "passage": 4
+          },
+          {
+            "claim": "The LLM returns a verdict (Yes/No) for each statement.",
+            "supported": true,
+            "passage": 4
+          },
+          {
+            "claim": "The number of statements that the LLM judges as supported is denoted |V|.",
+            "supported": true,
+            "passage": 4
+          },
+          {
+            "claim": "The final faithfulness score F is the proportion of supported statements, calculated as F = |V| / |S|.",
+            "supported": true,
+            "passage": 4
+          }
+        ],
+        "n_claims": 5,
+        "supported": 5,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer accurately and concisely explains the methodology for computing the faithfulness score as described in the provided text.",
+        "tokens": 2508
+      }
+    },
+    {
+      "id": "q24",
+      "answerable": true,
+      "question": "How much faster than the prior GPU state of the art is the nearest neighbor implementation in Billion-scale similarity search with GPUs?",
+      "gold": "8.5x faster",
+      "answer": "The nearest‑neighbor implementation is about 8.5 times faster than the prior GPU state of the art[2].",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        2
+      ],
+      "invalid_citations": [],
+      "top_score": 0.8965,
+      "latency_ms": {
+        "embed": 14.2,
+        "retrieve": 35.9,
+        "generate": 568.3,
+        "total": 62.0
+      },
+      "tokens": {
+        "prompt": 2227,
+        "completion": 68
+      },
+      "e2e_ms": 618.4,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.1333,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "The nearest-neighbor implementation is about 8.5 times faster than the prior GPU state of the art.",
+            "supported": true,
+            "passage": 2
+          }
+        ],
+        "n_claims": 1,
+        "supported": 1,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly addresses the question using the specific speedup factor mentioned in the provided text.",
+        "tokens": 2446
+      },
+      "planted_error": {
+        "answer": "The nearest‑neighbor implementation is about 26.20 times faster than the prior GPU state of the art[2].",
+        "faithfulness": 0.0,
+        "caught": true
+      }
+    },
+    {
+      "id": "q25",
+      "answerable": true,
+      "question": "How many tasks and datasets does the C-MTEB benchmark cover?",
+      "gold": "6 tasks and 35 datasets",
+      "answer": "The C‑MTEB benchmark covers 6 different tasks and includes 35 publicly available datasets [1][4]",
+      "abstained": false,
+      "abstain_reason": null,
+      "citations": [
+        1,
+        4
+      ],
+      "invalid_citations": [],
+      "top_score": 0.7174,
+      "latency_ms": {
+        "embed": 10.1,
+        "retrieve": 127.1,
+        "generate": 704.2,
+        "total": 150.2
+      },
+      "tokens": {
+        "prompt": 1925,
+        "completion": 96
+      },
+      "e2e_ms": 841.4,
+      "em": 0.0,
+      "contains": 0.0,
+      "f1": 0.5556,
+      "judge": {
+        "ok": true,
+        "claims": [
+          {
+            "claim": "The C-MTEB benchmark covers 6 different tasks.",
+            "supported": true,
+            "passage": 4
+          },
+          {
+            "claim": "The C-MTEB benchmark includes 35 publicly available datasets.",
+            "supported": true,
+            "passage": 4
+          }
+        ],
+        "n_claims": 2,
+        "supported": 2,
+        "faithfulness": 1.0,
+        "relevance": 5,
+        "relevance_reason": "The answer directly and accurately addresses the question using the provided passages.",
+        "tokens": 2115
+      },
+      "planted_error": {
+        "answer": "The C‑MTEB benchmark covers 25 different tasks and includes 35 publicly available datasets [1][4]",
+        "faithfulness": 0.5,
+        "caught": true
+      }
+    },
+    {
+      "id": "u01",
+      "answerable": false,
+      "question": "Who won the 2022 FIFA World Cup?",
+      "gold": null,
+      "answer": "I can't answer that from the indexed documents.",
+      "abstained": true,
+      "abstain_reason": "below_threshold",
+      "citations": [],
+      "invalid_citations": [],
+      "top_score": 0.5135,
+      "latency_ms": {
+        "embed": 10.7,
+        "retrieve": 101.1,
+        "generate": 0.0,
+        "total": 111.9
+      },
+      "tokens": {
+        "prompt": 0,
+        "completion": 0
+      },
+      "e2e_ms": 111.8
+    },
+    {
+      "id": "u02",
+      "answerable": false,
+      "question": "What is the monthly minimum price of Pinecone's Standard plan?",
+      "gold": null,
+      "answer": "I can't answer that from the indexed documents.",
+      "abstained": true,
+      "abstain_reason": "below_threshold",
+      "citations": [],
+      "invalid_citations": [],
+      "top_score": 0.5567,
+      "latency_ms": {
+        "embed": 16.4,
+        "retrieve": 92.2,
+        "generate": 0.0,
+        "total": 108.7
+      },
+      "tokens": {
+        "prompt": 0,
+        "completion": 0
+      },
+      "e2e_ms": 108.6
+    },
+    {
+      "id": "u03",
+      "answerable": false,
+      "question": "What is the default ef value of Weaviate's HNSW index?",
+      "gold": null,
+      "answer": "I can't answer that from the indexed documents.",
+      "abstained": true,
+      "abstain_reason": "model_abstained",
+      "citations": [],
+      "invalid_citations": [],
+      "top_score": 0.6805,
+      "latency_ms": {
+        "embed": 17.4,
+        "retrieve": 79.6,
+        "generate": 415.8,
+        "total": 109.8
+      },
+      "tokens": {
+        "prompt": 2002,
+        "completion": 27
+      },
+      "e2e_ms": 512.8
+    },
+    {
+      "id": "u04",
+      "answerable": false,
+      "question": "How many parameters does GPT-4 have?",
+      "gold": null,
+      "answer": "I can't answer that from the indexed documents.",
+      "abstained": true,
+      "abstain_reason": "model_abstained",
+      "citations": [],
+      "invalid_citations": [],
+      "top_score": 0.6813,
+      "latency_ms": {
+        "embed": 8.9,
+        "retrieve": 82.2,
+        "generate": 657.1,
+        "total": 104.6
+      },
+      "tokens": {
+        "prompt": 1995,
+        "completion": 60
+      },
+      "e2e_ms": 748.2
+    },
+    {
+      "id": "u05",
+      "answerable": false,
+      "question": "What embedding dimension does OpenAI's text-embedding-3-large produce?",
+      "gold": null,
+      "answer": "I can't answer that from the indexed documents.",
+      "abstained": true,
+      "abstain_reason": "model_abstained",
+      "citations": [],
+      "invalid_citations": [],
+      "top_score": 0.7404,
+      "latency_ms": {
+        "embed": 47.5,
+        "retrieve": 91.8,
+        "generate": 778.8,
+        "total": 152.5
+      },
+      "tokens": {
+        "prompt": 2044,
+        "completion": 40
+      },
+      "e2e_ms": 918.1
+    }
+  ]
+}
