@@ -39,14 +39,20 @@ def format_context(rows: list[dict]) -> str:
     return "\n\n".join(blocks)
 
 
+def normalize(text: str) -> str:
+    """gpt-oss cites as 【1】 or 【1†L2-L4】 and uses narrow no-break spaces; map both to plain [1] and spaces."""
+    text = re.sub(r"【(\d+)(?:†[^】]*)?】", r"[\1]", text)
+    return re.sub(r"[   ]", " ", text).strip()
+
+
 def generate(question: str, rows: list[dict], provider: str | None = None, model: str | None = None) -> Answer:
     s = get_settings()
     provider, model = provider or s.gen_provider, model or s.gen_model
     user = f"Context passages:\n\n{format_context(rows)}\n\nQuestion: {question}\nAnswer:"
     res = chat(provider, model, user, system=SYSTEM, temperature=0.0, max_tokens=s.gen_max_tokens, cache_dir=s.llm_cache_dir)
-    text = res.text.strip()
+    text = normalize(res.text)
     abstained = ABSTAIN in text or not text
-    nums = [int(n) for n in re.findall(r"\[(\d+)\]", text)]
+    nums = [int(n) for group in re.findall(r"\[(\d+(?:\s*,\s*\d+)*)\]", text) for n in re.split(r"\s*,\s*", group)]
     cited = sorted({n for n in nums if 1 <= n <= len(rows)})
     invalid = sorted({n for n in nums if not 1 <= n <= len(rows)})
     return Answer(
