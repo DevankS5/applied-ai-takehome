@@ -17,11 +17,11 @@ flowchart LR
     S --> T{"best cosine >= 0.58?"}
     T -- no --> U["NO-CONTEXT BRANCH<br/>abstain, LLM never called"]
     T -- yes --> V["Grounded prompt<br/>numbered passages,<br/>cite every sentence"]
-    V --> W["Llama 3.3 70B (Groq)"]
+    V --> W["gpt-oss-120b (Groq)"]
     W --> X{"replied<br/>INSUFFICIENT_CONTEXT?"}
     X -- yes --> U
     X -- no --> Y["parse + validate [n] citations"]
     Y --> Z["JSON: answer, citations, sources,<br/>latency per stage, chunk count, tokens"]
     U --> Z
   end
-  G == "vectors + BM25" ==> S
+  ING == "LanceDB table: vectors + BM25 index" ==> QRY
