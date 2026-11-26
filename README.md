@@ -200,4 +200,57 @@ Sensitivity: at 10M queries/month the serverless option costs ~$245 at every sca
 
 ![Problem 2 pipeline](docs/img/p2_pipeline.png)
 
-<!-- FILL:p2 -->
+## Design
+
+**In / out.** A suite (YAML or JSON) of `{id, input, system_prompt, model_output?, expected_output?, context?, criteria?}`. Cases without `model_output` are generated first by a generator config. Out: a per-case structured verdict and a suite report (pass rate with bootstrap 95% CI, mean score, per-criterion and per-category means, score spread, parse statistics, tokens, cost). Judge and generators are configured in separate YAML files (`configs/judge_*.yaml`, `configs/gen_*.yaml`).
+
+**Judge: Gemini 3.5 Flash-Lite (Google), temperature 0. Generators: gpt-oss-20b (OpenAI).** Different families, so the judge wrote neither side of the A/B.
+
+**Modes.** Pointwise reference-based scoring against an explicit rubric for "is it good enough"; pairwise A-vs-B, always in both orders, for "which config is better".
+
+**Rubric** ([`judge/rubric.yaml`](judge/rubric.yaml)): correctness 0.30, faithfulness 0.20, completeness 0.20, instruction-following 0.20, tone/safety 0.10, each scored 1-5 with written anchors for 1, 3 and 5. The judge must quote evidence before each score. Weights and the pass gate (overall >= 3.5, correctness >= 3, tone/safety >= 3) are applied in code, so the judge cannot argue the total up.
+
+**Structured verdicts.** JSON mode plus a Pydantic schema. A parse ladder (strict, extract the first `{...}`, repair quotes/commas/literals/truncation, light type coercion) then one re-ask carrying the validation error; after that the case is `parse_failed` and counted, never silently scored. Every call is in `logs/judge_audit.jsonl` and `python -m judge replay` re-parses the whole log offline. Across 401 logged judge calls, 386 parsed first time and all 15 failures were recovered by the re-ask (typically the judge writing scores where the schema wanted `A`/`B`/`tie`).
+
+## Bias handling: measured before (naive prompt) and after (v2)
+
+Same judge model throughout; only the prompt and protocol change. The naive baseline is a bare "score 1-10" / "which is better" prompt.
+
+| Bias | Mitigation in code | Before -> after |
+|---|---|---|
+| Position | `judge_pair_both_orders()`: run A/B and B/A, keep the winner only if both orders agree, else tie | MT-Bench pairs (n = 30): flip rate **23.3% -> 16.7%**, first-slot win rate when decisive 61% -> 54%; final verdicts flip 0% by construction. A/B suite flip rate 12.5% (3 of 24, all became ties) |
+| Verbosity / length | length policy in the prompt, evidence before score, padded-answer probe | The naive judge's bias ran the other way: it **failed 9 of 12 correct-but-padded answers** (score 1/10, the same as a wrong answer); v2 fails 0 of 12, docking only instruction-following. Verbose-but-wrong passed: 0/12 -> 0/12 |
+| Self-enhancement | judge from a different family; measured with a neutral third judge (Qwen) on 12 cases answered by gpt-oss-120b and Gemini | 33 of 36 both-order verdicts were ties; Gemini-for-Gemini -0.17, gpt-oss-for-gpt-oss +0.08: one or two cases each, no measurable self-preference at this n |
+| Sycophancy / confident style | "polished wording is not evidence", reference as ground truth, confidently-wrong probe | Confident-but-wrong passed: 0/12 -> 0/12 |
+| Score clustering | anchored 1/3/5 scale, calibration examples, weighted overall in code | Naive scores are bimodal (29 of 48 probes got 1, 12 got 10); normalised entropy 0.47 -> 0.85; good-vs-bad ranking AUC 0.90 -> **1.00** |
+
+![bias before and after](docs/img/p2_bias_before_after.png)
+
+## Judge validation
+
+| Check | Result | Notes |
+|---|---|---|
+| Agreement with human experts | **66.7%** (v2, both orders), 63.3% naive | 30 MT-Bench first-turn pairs with expert votes (`lmsys/mt_bench_human_judgments`, CC BY 4.0), labels A / B / tie. On pairs where the human picked a side: 84% single-order. The MT-Bench paper reports about 66% for GPT-4 with ties and 85% without, so this is in the same range |
+| Cohen's kappa vs humans | **0.47** (v2), 0.43 naive | 3 classes; moderate agreement |
+| Probe set vs gold-by-construction | accuracy 81% -> **100%**, kappa 0.63 -> **1.00** | 48 probes: terse-correct, padded-correct, confident-wrong and verbose-wrong versions of 12 suite cases |
+| Test-retest at temperature 0.7 | pointwise verdict flips **0%** (12 items x 3 samples, overall-score std 0.08); pairwise single-order winner flips **30%** (3 of 10 close MT-Bench pairs) | why production runs at temperature 0, cached, and pairwise only in both orders |
+| Planted errors (Problem 1 judge) | 11 / 11 caught | see Problem 1 |
+
+![raw judge prompt and response](docs/img/p2_audit.png)
+
+## A/B comparison
+
+`gpt-oss-20b` with the case prompt as given (A) vs the same model with prompt v2, which adds constraint re-reading, false-premise and no-padding guidance (B):
+
+| Config | Pass rate | Mean score (1-5) | Pairwise (both orders) |
+|---|---|---|---|
+| A: prompt v1 | 100% | 4.95 | 1 win, 23 ties |
+| B: prompt v2 | 100% | 4.95 | 0 wins |
+
+**Declared result: no significant difference** (sign test p = 1.0). The suite is saturated for this model: both configs pass every case, so there is nothing for v2 to fix. The pipeline refuses to crown A on a 1-0 record, which is the behaviour a release gate needs. A harder suite (or a weaker model) is the next step to make this A/B informative.
+
+## Would I let it gate a release?
+
+For regressions, yes: fixed versioned suite and judge config, temperature 0, both-order pairwise with a significance test before any "B beats A", a minimum parse-success rate, and the probe set as a canary that must stay correctly classified. A human stays in the loop for safety failures, any pair where the orders disagree, cases near the pass threshold, a periodic re-labelled sample to re-measure agreement, and any change to the judge model or prompt.
+
+**Limits.** 30 human-labelled pairs and 12-case probe groups give wide intervals; the suite is easy for current models; self-preference was not measurable at this size; one judge model, no ensemble.
