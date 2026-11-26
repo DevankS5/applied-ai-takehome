@@ -1,0 +1,6 @@
+# Config A: the case's system prompt as-is.
+name: A-gptoss20b-prompt-v1
+provider: groq
+model: openai/gpt-oss-20b
+prompt: v1
+temperature: 0.0

@@ -1,0 +1,28 @@
+flowchart LR
+  subgraph PT["Pointwise verdicts: python -m judge run"]
+    direction TB
+    A["Test suite (YAML / JSON)<br/>input, system_prompt, model_output?,<br/>expected_output?, criteria?"] --> B{"model_output<br/>present?"}
+    B -- no --> C["Generator config A / B<br/>gpt-oss-20b (OpenAI), prompt v1 / v2<br/>own config, own audit log"]
+    C --> D
+    B -- yes --> D["Build judging prompt<br/>rubric + anchors, evidence before score,<br/>length and confidence policy, few-shot anchors"]
+    D --> E["Judge: Gemini 3.5 Flash-Lite (Google)<br/>different family from generator<br/>JSON mode, temperature 0"]
+    E -.-> L[("JSONL audit log<br/>prompt, raw response, model,<br/>tokens, latency, cost; replayable")]
+    E --> F["Parse ladder<br/>strict, extract object, repair, schema check"]
+    F -- "fails" --> G["re-ask once with the parser error"]
+    G --> F
+    F -- "fails twice" --> H["parse_failed (never a silent score)"]
+    F -- ok --> I["Weighted overall + gates<br/>(computed in code, not by the judge)"]
+    I --> J["Suite report<br/>pass rate, mean scores,<br/>bootstrap 95% CI"]
+  end
+  subgraph PW["A vs B: python -m judge ab (position-bias mitigation)"]
+    direction TB
+    P["pair (x, y) for each case"] --> P1["judge order x, y"]
+    P --> P2["judge order y, x<br/>map labels back"]
+    P1 --> P3{"same winner?"}
+    P2 --> P3
+    P3 -- yes --> P4["keep winner"]
+    P3 -- no --> P5["tie + count as a flip"]
+    P4 --> K["Compare configs<br/>win rate, sign test:<br/>winner or 'no significant difference'"]
+    P5 --> K
+  end
+  PT == "per-config reports + outputs" ==> PW

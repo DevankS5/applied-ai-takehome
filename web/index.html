@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cost-efficient RAG on LanceDB</title>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --ink:#14171f; --mute:#5b6372; --line:#e3e6eb; --acc:#2456d6; --on-acc:#ffffff; --ok:#147a4b; --warn:#a35a00;
+          --r-card:1.25rem; --r-ctl:.75rem; --r-chip:.5rem; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0f1116; --card:#171a21; --ink:#e8eaf0; --mute:#9aa3b2; --line:#272b35; --acc:#7aa2ff; --on-acc:#0f1116; --ok:#4cc38a; --warn:#f0a44b; } }
+  * { box-sizing:border-box } body { margin:0; font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--ink) }
+  main { max-width:860px; margin:0 auto; padding:2rem 1rem 4rem }
+  h1 { font-size:1.6rem; margin:.2rem 0 } p.lead { color:var(--mute); margin:.2rem 0 1.4rem }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:var(--r-card); padding:1.25rem; margin:1rem 0 }
+  textarea, select, input, button { font:inherit; border-radius:var(--r-ctl); border:1px solid var(--line); background:var(--bg); color:var(--ink); padding:.6rem .8rem }
+  textarea { width:100%; min-height:4.5rem; resize:vertical }
+  .row { display:flex; gap:.6rem; flex-wrap:wrap; align-items:center; margin-top:.7rem }
+  button { background:var(--acc); color:var(--on-acc); border:none; cursor:pointer; font-weight:600 } button:disabled { opacity:.5 }
+  .chip { display:inline-block; border-radius:var(--r-chip); background:var(--bg); border:1px solid var(--line); padding:.1rem .55rem; font-size:.82rem; color:var(--mute); margin:.15rem .25rem .15rem 0 }
+  .chip.ok { color:var(--ok) } .chip.warn { color:var(--warn) }
+  .src { border:1px solid var(--line); border-radius:calc(var(--r-card) - .5rem); padding:.7rem .9rem; margin:.6rem 0 }
+  .src.cited { border-color:var(--acc) } .src p { margin:.3rem 0 0; color:var(--mute); font-size:.9rem; white-space:pre-wrap; max-height:7.5rem; overflow:auto }
+  .ans { font-size:1.05rem; white-space:pre-wrap } a { color:var(--acc) }
+  .examples button { background:var(--bg); color:var(--ink); border:1px solid var(--line); font-weight:400; font-size:.85rem; padding:.3rem .6rem; border-radius:var(--r-chip) }
+  footer { color:var(--mute); font-size:.85rem; margin-top:2rem }
+</style>
+</head>
+<body>
+<main>
+  <h1>Cost-efficient RAG on LanceDB</h1>
+  <p class="lead">Ask about RAG, vector search, IR metrics or LLM-as-judge. Answers come only from 17 indexed documents (7 arXiv PDFs, 6 Wikipedia pages, 4 READMEs) and cite the chunks they used.
+    Embeddings run locally (bge-small, 384-d); the index is an embedded LanceDB table, so this demo costs nothing while idle.</p>
+
+  <div class="card">
+    <textarea id="q" placeholder="e.g. What is the default hnsw.ef_search in pgvector?"></textarea>
+    <div class="row">
+      <label>k <input id="k" type="number" min="1" max="20" value="5" style="width:4.5rem"></label>
+      <label>type <select id="type"><option value="">all</option><option>pdf</option><option>html</option><option>md</option></select></label>
+      <button id="go">Ask</button>
+    </div>
+    <div class="row examples" id="ex"></div>
+  </div>
+
+  <div id="out"></div>
+
+  <div class="card">
+    <strong>Evaluation reports</strong>
+    <div class="row">
+      <a href="https://github.com/DevankS5/applied-ai-takehome#problem-1-cost-efficient-rag">Problem 1: RAG evaluation</a> ·
+      <a href="https://github.com/DevankS5/applied-ai-takehome#problem-2-llm-as-judge-with-bias-handling">Problem 2: LLM-as-judge</a> ·
+      <a href="/docs">API (Swagger)</a> · <a href="/stats">/stats</a> ·
+      <a href="https://github.com/DevankS5/applied-ai-takehome">Source on GitHub</a>
+    </div>
+  </div>
+  <footer>Public demo: rate-limited per IP with a daily LLM budget. Built by Devank Srivastava.</footer>
+</main>
+<script>
+const EX = ["What is the default hnsw.ef_search in pgvector?", "Why do LLM judges show position bias, and how was it measured?",
+            "How is nDCG normalized?", "What does the Lost in the Middle paper find about where relevant information sits in the context?",
+            "Who won the 2022 FIFA World Cup?"];
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+EX.forEach(t => { const b = document.createElement("button"); b.textContent = t; b.onclick = () => { $("q").value = t; ask(); }; $("ex").appendChild(b); });
+$("go").onclick = ask;
+$("q").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(); } });
+async function ask() {
+  const question = $("q").value.trim(); if (!question) return;
+  $("go").disabled = true; $("out").innerHTML = '<div class="card">Retrieving and answering…</div>';
+  const body = { question, k: +$("k").value || 5 };
+  if ($("type").value) body.filters = { doc_type: $("type").value };
+  try {
+    const r = await fetch("/query", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.detail || r.statusText);
+    const L = d.latency_ms;
+    $("out").innerHTML = `<div class="card">
+      <div class="ans">${esc(d.answer)}</div>
+      <div class="row">
+        <span class="chip ${d.abstained ? "warn" : "ok"}">${d.abstained ? "abstained: " + d.abstain_reason : "grounded, cites " + d.citations.map(n => "[" + n + "]").join("")}</span>
+        <span class="chip">top score ${d.top_score}</span><span class="chip">${d.chunks_retrieved} chunks</span>
+        <span class="chip">embed ${L.embed} ms</span><span class="chip">retrieve ${L.retrieve} ms</span>
+        <span class="chip">generate ${L.generate} ms</span><span class="chip">total ${L.total} ms</span>
+        <span class="chip">tokens ${d.tokens.prompt} in / ${d.tokens.completion} out</span>
+      </div>${d.note ? `<p class="chip warn">${esc(d.note)}</p>` : ""}</div>
+      <div class="card"><strong>Retrieved chunks</strong>${d.sources.map(s => `
+        <div class="src ${s.cited ? "cited" : ""}"><strong>[${s.n}]</strong> ${esc(s.title)}
+          <span class="chip">${s.doc_type}${s.page ? " · p." + s.page : s.heading ? " · " + esc(s.heading) : ""}</span>
+          <span class="chip">score ${s.score}</span>${s.cited ? '<span class="chip ok">cited</span>' : ""}
+          <p>${esc(s.text)}</p></div>`).join("")}</div>`;
+  } catch (e) { $("out").innerHTML = `<div class="card"><span class="chip warn">${esc(e.message)}</span></div>`; }
+  $("go").disabled = false;
+}
+</script>
+</body>
+</html>

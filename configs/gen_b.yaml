@@ -1,0 +1,6 @@
+# Config B: same model, system prompt v2 (constraint re-read, false-premise and padding guidance).
+name: B-gptoss20b-prompt-v2
+provider: groq
+model: openai/gpt-oss-20b
+prompt: v2
+temperature: 0.0

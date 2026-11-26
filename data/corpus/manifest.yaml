@@ -1,0 +1,80 @@
+# Evaluation corpus: RAG, vector search, IR metrics and LLM evaluation.
+# 17 public documents in three formats. Fetched by scripts/fetch_corpus.py into data/corpus/raw/.
+# arXiv PDFs are pinned to a version and are NOT committed (redistribution licence varies by paper).
+# Wikipedia pages are pinned to a revision id (REST API, CC BY-SA 4.0) and READMEs to a commit SHA (permissive licences),
+# so every URL is immutable and the eval evidence quotes cannot drift.
+
+documents:
+  # ---- PDF (arXiv, version-pinned) ----
+  - id: rag-lewis-2020
+    type: pdf
+    title: "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"
+    url: https://arxiv.org/pdf/2005.11401v4
+  - id: llm-judge-zheng-2023
+    type: pdf
+    title: "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena"
+    url: https://arxiv.org/pdf/2306.05685v4
+  - id: lost-in-the-middle-2023
+    type: pdf
+    title: "Lost in the Middle: How Language Models Use Long Contexts"
+    url: https://arxiv.org/pdf/2307.03172v3
+  - id: hnsw-malkov-2016
+    type: pdf
+    title: "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs"
+    url: https://arxiv.org/pdf/1603.09320v4
+  - id: ragas-2023
+    type: pdf
+    title: "RAGAS: Automated Evaluation of Retrieval Augmented Generation"
+    url: https://arxiv.org/pdf/2309.15217v2
+  - id: cpack-bge-2023
+    type: pdf
+    title: "C-Pack: Packed Resources For General Chinese Embeddings (BGE)"
+    url: https://arxiv.org/pdf/2309.07597v5
+  - id: faiss-gpu-2017
+    type: pdf
+    title: "Billion-scale similarity search with GPUs"
+    url: https://arxiv.org/pdf/1702.08734v1
+
+  # ---- HTML (Wikipedia REST, CC BY-SA 4.0) ----
+  - id: wiki-rag
+    type: html
+    title: "Retrieval-augmented generation"
+    url: https://en.wikipedia.org/api/rest_v1/page/html/Retrieval-augmented_generation/1387698084
+  - id: wiki-vector-database
+    type: html
+    title: "Vector database"
+    url: https://en.wikipedia.org/api/rest_v1/page/html/Vector_database/1384354448
+  - id: wiki-bm25
+    type: html
+    title: "Okapi BM25"
+    url: https://en.wikipedia.org/api/rest_v1/page/html/Okapi_BM25/1383710681
+  - id: wiki-dcg
+    type: html
+    title: "Discounted cumulative gain"
+    url: https://en.wikipedia.org/api/rest_v1/page/html/Discounted_cumulative_gain/1383184584
+  - id: wiki-mrr
+    type: html
+    title: "Mean reciprocal rank"
+    url: https://en.wikipedia.org/api/rest_v1/page/html/Mean_reciprocal_rank/1218582630
+  - id: wiki-cohens-kappa
+    type: html
+    title: "Cohen's kappa"
+    url: https://en.wikipedia.org/api/rest_v1/page/html/Cohen%27s_kappa/1369111861
+
+  # ---- Markdown (GitHub READMEs, permissive licences) ----
+  - id: md-pgvector
+    type: md
+    title: "pgvector README"
+    url: https://raw.githubusercontent.com/pgvector/pgvector/e8f84dcc55dd2cace82dfadcdd7929781c3f708c/README.md
+  - id: md-lancedb
+    type: md
+    title: "LanceDB README"
+    url: https://raw.githubusercontent.com/lancedb/lancedb/60519d42cec4ea7b4ec81208608c2ebb97a289db/README.md
+  - id: md-sqlite-vec
+    type: md
+    title: "sqlite-vec README"
+    url: https://raw.githubusercontent.com/asg017/sqlite-vec/04d28bd21773981e2d266bbf6aa4efbd011eb4f6/README.md
+  - id: md-faiss
+    type: md
+    title: "FAISS README"
+    url: https://raw.githubusercontent.com/facebookresearch/faiss/0c0f203669a5b7493260b268351280064f8fe561/README.md

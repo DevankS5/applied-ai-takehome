@@ -1,0 +1,151 @@
+{
+  "k": 10,
+  "queries": 300,
+  "dim": 384,
+  "results": [
+    {
+      "system": "FAISS IndexFlatIP (exact, in RAM)",
+      "build_s": 0.0,
+      "size_mb": 153.6,
+      "p50_ms": 9.06,
+      "p95_ms": 10.14,
+      "recall@10": 1.0,
+      "vectors": 100000
+    },
+    {
+      "system": "FAISS HNSW (M=32, efSearch=64, in RAM)",
+      "build_s": 5.2,
+      "size_mb": 179.2,
+      "p50_ms": 0.28,
+      "p95_ms": 0.46,
+      "recall@10": 0.8763,
+      "vectors": 100000
+    },
+    {
+      "system": "FAISS HNSW (M=32, efSearch=128, in RAM)",
+      "build_s": 5.2,
+      "size_mb": 179.2,
+      "p50_ms": 0.47,
+      "p95_ms": 0.81,
+      "recall@10": 0.9447,
+      "vectors": 100000
+    },
+    {
+      "system": "FAISS HNSW (M=32, efSearch=256, in RAM)",
+      "build_s": 5.2,
+      "size_mb": 179.2,
+      "p50_ms": 0.94,
+      "p95_ms": 1.47,
+      "recall@10": 0.9803,
+      "vectors": 100000
+    },
+    {
+      "system": "LanceDB flat scan (exact, on disk)",
+      "build_s": 0.4,
+      "size_mb": 153.8,
+      "p50_ms": 133.6,
+      "p95_ms": 156.72,
+      "recall@10": 1.0,
+      "vectors": 100000
+    },
+    {
+      "system": "LanceDB IVF-PQ (316 parts, 48 subvec, nprobes=20, refine=10)",
+      "build_s": 16.7,
+      "size_mb": 159.8,
+      "p50_ms": 12.22,
+      "p95_ms": 14.04,
+      "recall@10": 0.882,
+      "vectors": 100000
+    },
+    {
+      "system": "LanceDB IVF-PQ (316 parts, 48 subvec, nprobes=50, refine=20)",
+      "build_s": 16.7,
+      "size_mb": 159.8,
+      "p50_ms": 15.3,
+      "p95_ms": 16.48,
+      "recall@10": 0.964,
+      "vectors": 100000
+    },
+    {
+      "system": "LanceDB IVF-PQ (316 parts, 48 subvec, nprobes=100, refine=50)",
+      "build_s": 16.7,
+      "size_mb": 159.8,
+      "p50_ms": 23.95,
+      "p95_ms": 30.31,
+      "recall@10": 0.9913,
+      "vectors": 100000
+    },
+    {
+      "system": "FAISS IndexFlatIP (exact, in RAM)",
+      "build_s": 0.3,
+      "size_mb": 1536.0,
+      "p50_ms": 80.0,
+      "p95_ms": 96.99,
+      "recall@10": 1.0,
+      "vectors": 1000000
+    },
+    {
+      "system": "FAISS HNSW (M=32, efSearch=64, in RAM)",
+      "build_s": 77.6,
+      "size_mb": 1792.0,
+      "p50_ms": 0.59,
+      "p95_ms": 1.57,
+      "recall@10": 0.592,
+      "vectors": 1000000
+    },
+    {
+      "system": "FAISS HNSW (M=32, efSearch=128, in RAM)",
+      "build_s": 77.6,
+      "size_mb": 1792.0,
+      "p50_ms": 0.94,
+      "p95_ms": 1.64,
+      "recall@10": 0.7123,
+      "vectors": 1000000
+    },
+    {
+      "system": "FAISS HNSW (M=32, efSearch=256, in RAM)",
+      "build_s": 77.6,
+      "size_mb": 1792.0,
+      "p50_ms": 1.53,
+      "p95_ms": 2.21,
+      "recall@10": 0.83,
+      "vectors": 1000000
+    },
+    {
+      "system": "LanceDB flat scan (exact, on disk)",
+      "build_s": 5.6,
+      "size_mb": 1538.4,
+      "p50_ms": 1089.79,
+      "p95_ms": 1306.16,
+      "recall@10": 1.0,
+      "vectors": 1000000
+    },
+    {
+      "system": "LanceDB IVF-PQ (1000 parts, 48 subvec, nprobes=20, refine=10)",
+      "build_s": 37.1,
+      "size_mb": 1591.7,
+      "p50_ms": 12.39,
+      "p95_ms": 18.58,
+      "recall@10": 0.6763,
+      "vectors": 1000000
+    },
+    {
+      "system": "LanceDB IVF-PQ (1000 parts, 48 subvec, nprobes=50, refine=20)",
+      "build_s": 37.1,
+      "size_mb": 1591.7,
+      "p50_ms": 15.9,
+      "p95_ms": 17.91,
+      "recall@10": 0.8267,
+      "vectors": 1000000
+    },
+    {
+      "system": "LanceDB IVF-PQ (1000 parts, 48 subvec, nprobes=100, refine=50)",
+      "build_s": 37.1,
+      "size_mb": 1591.7,
+      "p50_ms": 24.92,
+      "p95_ms": 27.43,
+      "recall@10": 0.9397,
+      "vectors": 1000000
+    }
+  ]
+}

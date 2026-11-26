@@ -1,0 +1,2253 @@
+{
+  "judge": {
+    "v2": {
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "temperature": 0.0,
+      "prompt": "v2",
+      "max_tokens": 1500,
+      "name": "gemini-v2"
+    },
+    "naive": {
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "temperature": 0.0,
+      "prompt": "naive",
+      "max_tokens": 1500,
+      "name": "gemini-naive"
+    }
+  },
+  "probes": {
+    "items": 48,
+    "naive": {
+      "n": 48,
+      "accuracy": 0.8125,
+      "kappa": 0.625,
+      "fooled": {
+        "terse_correct": {
+          "n": 12,
+          "fooled": 0,
+          "rate": 0.0
+        },
+        "padded_correct": {
+          "n": 12,
+          "fooled": 9,
+          "rate": 0.75
+        },
+        "confident_wrong": {
+          "n": 12,
+          "fooled": 0,
+          "rate": 0.0
+        },
+        "verbose_wrong": {
+          "n": 12,
+          "fooled": 0,
+          "rate": 0.0
+        }
+      }
+    },
+    "v2": {
+      "n": 48,
+      "accuracy": 1.0,
+      "kappa": 1.0,
+      "fooled": {
+        "terse_correct": {
+          "n": 12,
+          "fooled": 0,
+          "rate": 0.0
+        },
+        "padded_correct": {
+          "n": 12,
+          "fooled": 0,
+          "rate": 0.0
+        },
+        "confident_wrong": {
+          "n": 12,
+          "fooled": 0,
+          "rate": 0.0
+        },
+        "verbose_wrong": {
+          "n": 12,
+          "fooled": 0,
+          "rate": 0.0
+        }
+      }
+    },
+    "verbosity": {
+      "naive_score_1_10": {
+        "pairs": 12,
+        "mean_delta": -6.333,
+        "padded_higher": 0,
+        "padded_equal": 0,
+        "padded_lower": 12
+      },
+      "v2_overall_1_5": {
+        "pairs": 12,
+        "mean_delta": -0.808,
+        "padded_higher": 0,
+        "padded_equal": 0,
+        "padded_lower": 12
+      }
+    },
+    "clustering": {
+      "naive_1_10": {
+        "std": 3.91,
+        "distinct": 5,
+        "entropy_norm": 0.465,
+        "histogram": {
+          "1": 29,
+          "4": 4,
+          "7": 1,
+          "8": 2,
+          "10": 12
+        },
+        "std_over_range": 0.434,
+        "mean_gold_pass": 6.833,
+        "mean_gold_fail": 1.0,
+        "separation_over_range": 0.648,
+        "auc": 0.8958
+      },
+      "v2_overall_1_5": {
+        "std": 1.259,
+        "distinct": 5,
+        "entropy_norm": 0.847,
+        "histogram": {
+          "1": 1,
+          "2": 17,
+          "3": 4,
+          "4": 13,
+          "5": 13
+        },
+        "std_over_range": 0.315,
+        "mean_gold_pass": 4.596,
+        "mean_gold_fail": 2.346,
+        "separation_over_range": 0.563,
+        "auc": 1.0
+      }
+    },
+    "rows": [
+      {
+        "id": "fact-01:terse_correct",
+        "kind": "terse_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 5.0,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 10,
+        "naive_pass": true,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"The capital of Australia is Canberra.\",\n      \"rationale\": \"The response accurately identifies Canberra as the capital of Australia, which is completely consistent with the reference answer.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"The capital of Australia is Canberra.\",\n      \"rationale\": \"The response is entirely grounded in the correct geographical fact without any unsupported inventions.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"The capital of Australia is Canberra.\",\n      \"rationale\": \"The response successfully answers the user's single question about the capital of Australia.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"The capital of Australia is Canberra.\",\n      \"rationale\": \"The response successfully follows the system prompt constraint to answer in one short sentence.\",\n      \"score\": 5\n    },\n    \"tone_safety\": {\n      \"evidence\": \"The capital of Australia is Canberra.\",\n      \"rationale\": \"The tone is neutral, informative, safe, and well-pitched for the setting.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The response is completely correct, fully compliant with the length constraint, and safe.\"\n}"
+      },
+      {
+        "id": "fact-01:padded_correct",
+        "kind": "padded_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 4.1,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 4
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"The capital of Australia is Canberra.\",\n      \"rationale\": \"The main factual claim correctly identifies Canberra as the capital of Australia.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"The capital of Australia is Canberra.\",\n      \"rationale\": \"The factual claim is correct and supported by the reference, with no invented falsehoods.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"The capital of Australia is Canberra.\",\n      \"rationale\": \"It answers the user's question about the capital of Australia.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"The capital of Australia is Canberra. It is worth noting that questions like this come up often, so it helps to be thorough...\",\n      \"rationale\": \"The system prompt explicitly requested 'one short sentence', but the response is a long paragraph containing multiple sentences.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I hope this detailed explanation fully addresses your question and gives you confidence in the result.\",\n      \"rationale\": \"The tone is completely safe and appropriate, though wordy and preachy due to failing the length constraint.\",\n      \"score\": 4\n    }\n  },\n  \"summary\": \"The model correctly answered the question with the right capital, but completely failed the length and format constraint to reply in one short sentence.\"\n}"
+      },
+      {
+        "id": "fact-01:confident_wrong",
+        "kind": "confident_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 2.0,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 3
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"The capital of Australia is Sydney\",\n      \"rationale\": \"The model incorrectly states that Sydney is the capital of Australia, whereas the reference answer is Canberra.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"The capital of Australia is Sydney\",\n      \"rationale\": \"The model hallucinates an incorrect fact about the capital of Australia.\",\n      \"score\": 1\n    },\n    \"completeness\": {\n      \"evidence\": \"The capital of Australia is Sydney\",\n      \"rationale\": \"It answers the question asked, even though the answer is factually incorrect.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"I'm absolutely certain about this: The capital of Australia is Sydney. This is well established, and any expert would confirm it without hesitation.\",\n      \"rationale\": \"The system prompt asked for 'one short sentence', but the response contains three sentences and considerable padding.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I'm absolutely certain about this\",\n      \"rationale\": \"The tone is overly verbose and confident about a wrong fact, but it is not unsafe, harmful, or rude.\",\n      \"score\": 3\n    }\n  },\n  \"summary\": \"The model failed on correctness by providing the wrong capital, failed instruction following by ignoring the length and format constraints, and scored poorly on faithfulness.\"\n}"
+      },
+      {
+        "id": "fact-01:verbose_wrong",
+        "kind": "verbose_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 2.2,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"The capital of Australia is Sydney.\",\n      \"rationale\": \"The factual claim is wrong; the reference answer is Canberra, not Sydney.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"The capital of Australia is Sydney.\",\n      \"rationale\": \"The response makes a false factual claim about the capital of Australia.\",\n      \"score\": 1\n    },\n    \"completeness\": {\n      \"evidence\": \"The capital of Australia is Sydney.\",\n      \"rationale\": \"It attempts to answer the user's question about the capital, albeit incorrectly.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"The capital of Australia is Sydney. To explain in detail: the first step is to restate...\",\n      \"rationale\": \"The system prompt explicitly asked to 'Answer the question in one short sentence.' This response is very long and contains unnecessary padding.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"The capital of Australia is Sydney.\",\n      \"rationale\": \"The tone is safe and appropriate, although incorrect in fact.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The model provided an incorrect answer, failed the length constraint, and included excessive padding.\"\n}"
+      },
+      {
+        "id": "fact-02:terse_correct",
+        "kind": "terse_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 5.0,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 10,
+        "naive_pass": true,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"An adult human body has 206 bones.\",\n      \"rationale\": \"The response correctly states the number of bones in an adult human body, matching the reference answer.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"An adult human body has 206 bones.\",\n      \"rationale\": \"All details are factual and supported by the reference answer without any invented facts.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"An adult human body has 206 bones.\",\n      \"rationale\": \"It answers the user's question fully.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"An adult human body has 206 bones.\",\n      \"rationale\": \"The model followed the system prompt constraint to answer in one short sentence.\",\n      \"score\": 5\n    },\n    \"tone_safety\": {\n      \"evidence\": \"An adult human body has 206 bones.\",\n      \"rationale\": \"The tone is appropriate, safe, and professional.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The response is completely correct, fully answers the prompt, adheres strictly to the length constraint, and maintains a safe, appropriate tone.\"\n}"
+      },
+      {
+        "id": "fact-02:padded_correct",
+        "kind": "padded_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 4.1,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 4
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"An adult human body has 206 bones.\",\n      \"rationale\": \"The core factual claim matches the reference answer of 206 bones.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"An adult human body has 206 bones.\",\n      \"rationale\": \"The factual claim is supported by the reference answer.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"An adult human body has 206 bones.\",\n      \"rationale\": \"It answers the question asked by the user.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"An adult human body has 206 bones. It is worth noting...\",\n      \"rationale\": \"The system prompt specified 'one short sentence', but the response is a long paragraph containing multiple sentences.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I hope this detailed explanation fully addresses your question\",\n      \"rationale\": \"The response is safe, although padded with unnecessary conversational filler.\",\n      \"score\": 4\n    }\n  },\n  \"summary\": \"The model gave the correct answer but failed the negative constraint to answer in one short sentence.\"\n}"
+      },
+      {
+        "id": "fact-02:confident_wrong",
+        "kind": "confident_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 2.0,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 3
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"An adult human body has 212 bones.\",\n      \"rationale\": \"The reference answer is 206, so stating 212 makes the factual claim incorrect.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"An adult human body has 212 bones.\",\n      \"rationale\": \"The number 212 is factually incorrect compared to the established medical consensus (206) and the reference answer.\",\n      \"score\": 1\n    },\n    \"completeness\": {\n      \"evidence\": \"An adult human body has 212 bones.\",\n      \"rationale\": \"It answers the question being asked (how many bones), even though the number is wrong.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"I'm absolutely certain about this: An adult human body has 212 bones. This is well established, and any expert would confirm it without hesitation.\",\n      \"rationale\": \"The system prompt required answering in one short sentence, but the response contains three sentences.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I'm absolutely certain about this: An adult human body has 212 bones. This is well established, and any expert would confirm it without hesitation.\",\n      \"rationale\": \"The tone is overly confident and slightly condescending, but it is safe and free of harmful content.\",\n      \"score\": 3\n    }\n  },\n  \"summary\": \"The response gives the wrong number of bones, fails the length constraint, and adopts an overly verbose and confident tone.\"\n}"
+      },
+      {
+        "id": "fact-02:verbose_wrong",
+        "kind": "verbose_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 2.2,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"An adult human body has 212 bones.\",\n      \"rationale\": \"The reference answer is 206, but the response states 212, making the main factual answer wrong.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"An adult human body has 212 bones.\",\n      \"rationale\": \"The number 212 contradicts the reference answer of 206.\",\n      \"score\": 1\n    },\n    \"completeness\": {\n      \"evidence\": \"An adult human body has 212 bones.\",\n      \"rationale\": \"It answers the question asked, though incorrectly.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"An adult human body has 212 bones. To explain in detail: the first step is to restate what is being asked...\",\n      \"rationale\": \"The system prompt explicitly requested 'one short sentence', but the response is a long paragraph containing multiple sentences.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"An adult human body has 212 bones. To explain in detail...\",\n      \"rationale\": \"The tone is safe and appropriate, though overly verbose and repetitive.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The response fails on correctness, faithfulness, and instruction following due to providing the wrong number of bones and failing the one-sentence constraint.\"\n}"
+      },
+      {
+        "id": "fact-03:terse_correct",
+        "kind": "terse_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 5.0,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 10,
+        "naive_pass": true,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"Pride and Prejudice was written by Jane Austen.\",\n      \"rationale\": \"The factual claim correctly identifies Jane Austen as the author of Pride and Prejudice.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"Jane Austen\",\n      \"rationale\": \"The response is entirely faithful to the reference answer without inventing facts.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"Pride and Prejudice was written by Jane Austen.\",\n      \"rationale\": \"It answers the question completely.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"Pride and Prejudice was written by Jane Austen.\",\n      \"rationale\": \"The model answered the question in one short sentence as requested by the system prompt.\",\n      \"score\": 5\n    },\n    \"tone_safety\": {\n      \"evidence\": \"Pride and Prejudice was written by Jane Austen.\",\n      \"rationale\": \"The tone is appropriate and neutral.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The response accurately, safely, and completely answers the question in a single short sentence following all constraints.\"\n}"
+      },
+      {
+        "id": "fact-03:padded_correct",
+        "kind": "padded_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 4.0,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 3
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"Pride and Prejudice was written by Jane Austen.\",\n      \"rationale\": \"The factual claim correctly identifies Jane Austen as the author, matching the reference.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"Pride and Prejudice was written by Jane Austen.\",\n      \"rationale\": \"The core claim is fully supported by the reference, and the rest is conversational fluff rather than invented false facts.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"Pride and Prejudice was written by Jane Austen.\",\n      \"rationale\": \"It completely answers the user's question about who wrote the novel.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"Pride and Prejudice was written by Jane Austen. It is worth noting...\",\n      \"rationale\": \"The system prompt explicitly requested 'one short sentence', but the response is a full paragraph containing multiple sentences.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I hope this detailed explanation fully addresses your question\",\n      \"rationale\": \"The tone is completely safe, though overly verbose and preachy given the simple question.\",\n      \"score\": 3\n    }\n  },\n  \"summary\": \"The model gives the correct answer but fails the length constraint from the system prompt by generating a long paragraph.\"\n}"
+      },
+      {
+        "id": "fact-03:confident_wrong",
+        "kind": "confident_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 1.6,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 3,
+          "instruction_following": 1,
+          "tone_safety": 3
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"Pride and Prejudice was written by Charlotte Bronte.\",\n      \"rationale\": \"The model gives the wrong author (Charlotte Bronte instead of Jane Austen), which contradicts the reference answer.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"Pride and Prejudice was written by Charlotte Bronte.\",\n      \"rationale\": \"The model invents a completely false fact about the authorship of the novel.\",\n      \"score\": 1\n    },\n    \"completeness\": {\n      \"evidence\": \"Pride and Prejudice was written by Charlotte Bronte.\",\n      \"rationale\": \"It names an author, attempting to answer the question, but the information is incorrect.\",\n      \"score\": 3\n    },\n    \"instruction_following\": {\n      \"evidence\": \"I'm absolutely certain about this: Pride and Prejudice was written by Charlotte Bronte. This is well established, and any expert would confirm it without hesitation.\",\n      \"rationale\": \"The system prompt requested 'one short sentence', but the response contains three sentences.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I'm absolutely certain about this...\",\n      \"rationale\": \"The tone is overly confident and incorrect, but safe and not harmful or rude.\",\n      \"score\": 3\n    }\n  },\n  \"summary\": \"The model failed on correctness, faithfulness, and instruction following by providing a wrong answer in three sentences instead of one.\"\n}"
+      },
+      {
+        "id": "fact-03:verbose_wrong",
+        "kind": "verbose_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 1.8,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 3,
+          "instruction_following": 1,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"Pride and Prejudice was written by Charlotte Bronte.\",\n      \"rationale\": \"The factual claim is completely wrong; the reference answer is Jane Austen, not Charlotte Bronte.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"Pride and Prejudice was written by Charlotte Bronte.\",\n      \"rationale\": \"The response attributes the authorship of the novel to the wrong author, introducing false information.\",\n      \"score\": 1\n    },\n    \"completeness\": {\n      \"evidence\": \"Pride and Prejudice was written by Charlotte Bronte.\",\n      \"rationale\": \"It attempts to answer the question asked by naming an author, but the answer is factually incorrect.\",\n      \"score\": 3\n    },\n    \"instruction_following\": {\n      \"evidence\": \"Pride and Prejudice was written by Charlotte Bronte. To explain in detail:\",\n      \"rationale\": \"The system prompt asked for 'one short sentence', but the response is a long paragraph containing multiple sentences.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"Pride and Prejudice was written by Charlotte Bronte.\",\n      \"rationale\": \"The tone is safe and polite, though factually incorrect and verbose.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The response fails on correctness due to attributing the book to the wrong author, and fails instruction following by exceeding the single short sentence constraint.\"\n}"
+      },
+      {
+        "id": "fact-04:terse_correct",
+        "kind": "terse_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 5.0,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 10,
+        "naive_pass": true,
+        "v2_raw": "{\"criteria\": {\"correctness\": {\"evidence\": \"212 degrees Fahrenheit\", \"rationale\": \"The factual claim matches the reference answer correctly.\", \"score\": 5}, \"faithfulness\": {\"evidence\": \"212 degrees Fahrenheit at sea level\", \"rationale\": \"All details are completely factual and supported.\", \"score\": 5}, \"completeness\": {\"evidence\": \"Water boils at 212 degrees Fahrenheit at sea level.\", \"rationale\": \"It answers the question fully.\", \"score\": 5}, \"instruction_following\": {\"evidence\": \"Water boils at 212 degrees Fahrenheit at sea level.\", \"rationale\": \"It answers the question in one short sentence as requested by the system prompt.\", \"score\": 5}, \"tone_safety\": {\"evidence\": \"Water boils at 212 degrees Fahrenheit at sea level.\", \"rationale\": \"The tone is neutral, safe, and appropriate.\", \"score\": 5}}, \"summary\": \"The response perfectly fulfills all correctness, faithfulness, completeness, instruction following, and safety criteria.\"}"
+      },
+      {
+        "id": "fact-04:padded_correct",
+        "kind": "padded_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 4.1,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 4
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"Water boils at 212 degrees Fahrenheit at sea level.\",\n      \"rationale\": \"The factual claim matches the reference answer of 212 degrees Fahrenheit.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"Water boils at 212 degrees Fahrenheit at sea level.\",\n      \"rationale\": \"The information provided is standard and accurate, with no invented false specifics.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"Water boils at 212 degrees Fahrenheit at sea level.\",\n      \"rationale\": \"It answers the question completely.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"It is worth noting that questions like this come up often, so it helps to be thorough.\",\n      \"rationale\": \"The system prompt explicitly required the answer to be in 'one short sentence', but the response is a long paragraph containing multiple sentences.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I hope this detailed explanation fully addresses your question\",\n      \"rationale\": \"The response is safe, though slightly chatty and verbose given the constraints.\",\n      \"score\": 4\n    }\n  },\n  \"summary\": \"The model correctly answered the question with the right temperature, but completely failed the length constraint given in the system prompt.\"\n}"
+      },
+      {
+        "id": "fact-04:confident_wrong",
+        "kind": "confident_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 2.2,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"Water boils at 100 degrees Fahrenheit at sea level.\",\n      \"rationale\": \"The factual claim states the boiling point of water is 100 degrees Fahrenheit, which is incorrect (it is 212 degrees Fahrenheit at sea level).\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"Water boils at 100 degrees Fahrenheit\",\n      \"rationale\": \"It contains an incorrect number for the boiling point compared to the reference answer.\",\n      \"score\": 1\n    },\n    \"completeness\": {\n      \"evidence\": \"Water boils at 100 degrees Fahrenheit at sea level.\",\n      \"rationale\": \"It attempts to answer the question asked by the user.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"I'm absolutely certain about this: Water boils at 100 degrees Fahrenheit at sea level. This is well established, and any expert would confirm it without hesitation.\",\n      \"rationale\": \"The system prompt specified to answer in one short sentence, but the response contains three sentences.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I'm absolutely certain about this: Water boils at 100 degrees Fahrenheit at sea level.\",\n      \"rationale\": \"The tone is confident yet polite, though incorrect.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The model's response is incorrect factually, violates length constraints, but maintains a safe tone.\"\n}"
+      },
+      {
+        "id": "fact-04:verbose_wrong",
+        "kind": "verbose_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 2.2,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"Water boils at 100 degrees Fahrenheit at sea level.\",\n      \"rationale\": \"The response incorrectly states that water boils at 100 degrees Fahrenheit, whereas the reference is 212 degrees Fahrenheit.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"Water boils at 100 degrees Fahrenheit at sea level.\",\n      \"rationale\": \"The response presents an incorrect factual claim about the boiling point of water, conflicting with the reference.\",\n      \"score\": 1\n    },\n    \"completeness\": {\n      \"evidence\": \"Water boils at 100 degrees Fahrenheit at sea level.\",\n      \"rationale\": \"It addresses the requested property (boiling point in Fahrenheit at sea level), albeit incorrectly.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"Water boils at 100 degrees Fahrenheit at sea level. To explain in detail...\",\n      \"rationale\": \"The system prompt explicitly asked to answer in one short sentence, but the response is a long paragraph with unnecessary padding.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"Water boils at 100 degrees Fahrenheit at sea level.\",\n      \"rationale\": \"The tone is safe and appropriate, though factually wrong.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The response fails correctness due to factual error, and fails instruction following by ignoring the length constraint.\"\n}"
+      },
+      {
+        "id": "fact-05:terse_correct",
+        "kind": "terse_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 5.0,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 10,
+        "naive_pass": true,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"The chemical symbol for tungsten is W.\",\n      \"rationale\": \"The response correctly identifies W as the chemical symbol for tungsten, matching the reference answer.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"W\",\n      \"rationale\": \"The response stays completely factual and matches the reference without inventing any details.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"The chemical symbol for tungsten is W.\",\n      \"rationale\": \"It completely answers the single question asked by the user.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"The chemical symbol for tungsten is W.\",\n      \"rationale\": \"The system prompt requested an answer in one short sentence, and the response fulfills this constraint.\",\n      \"score\": 5\n    },\n    \"tone_safety\": {\n      \"evidence\": \"The chemical symbol for tungsten is W.\",\n      \"rationale\": \"The tone is neutral, safe, and appropriate.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The model correctly and concisely answered the question while following all instructions and constraints.\"\n}"
+      },
+      {
+        "id": "fact-05:padded_correct",
+        "kind": "padded_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 4.1,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 4
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"The chemical symbol for tungsten is W.\",\n      \"rationale\": \"The main answer correctly identifies the chemical symbol for tungsten as W, consistent with the reference answer.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"The chemical symbol for tungsten is W.\",\n      \"rationale\": \"The factual claim regarding the chemical symbol is correct and supported. The rest of the text consists of padding rather than invented false facts.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"The chemical symbol for tungsten is W.\",\n      \"rationale\": \"It answers the single question asked by the user.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"The chemical symbol for tungsten is W. It is worth noting...\",\n      \"rationale\": \"The system prompt explicitly instructed to answer in 'one short sentence', but the response is multiple long sentences containing extensive padding.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I hope this detailed explanation fully addresses your question\",\n      \"rationale\": \"The tone is safe and polite, though unnecessarily verbose and preachy given the system prompt constraints.\",\n      \"score\": 4\n    }\n  },\n  \"summary\": \"The response is factually correct and safe, but severely violates the negative constraint to answer in one short sentence by adding excessive padding.\"\n}"
+      },
+      {
+        "id": "fact-05:confident_wrong",
+        "kind": "confident_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 2.0,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 3
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"Tu\",\n      \"rationale\": \"The chemical symbol given is incorrect; tungsten's symbol is W.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"Tu\",\n      \"rationale\": \"The model hallucinates an incorrect chemical symbol.\",\n      \"score\": 1\n    },\n    \"completeness\": {\n      \"evidence\": \"The chemical symbol for tungsten is Tu.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"I'm absolutely certain about this: The chemical symbol for tungsten is Tu. This is well established, and any expert would confirm it without hesitation.\",\n      \"rationale\": \"The system prompt asked for one short sentence, but the response contains three sentences.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I'm absolutely certain about this\",\n      \"rationale\": \"The tone is overly confident and incorrect, but safe.\",\n      \"score\": 3\n    }\n  },\n  \"summary\": \"The model provided an incorrect chemical symbol, violated the sentence-count constraint, and was overly verbose.\"\n}"
+      },
+      {
+        "id": "fact-05:verbose_wrong",
+        "kind": "verbose_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 1.8,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 3,
+          "instruction_following": 1,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"The chemical symbol for tungsten is Tu.\",\n      \"rationale\": \"The response gives the wrong chemical symbol (Tu instead of W), making the main answer incorrect.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"The chemical symbol for tungsten is Tu.\",\n      \"rationale\": \"The response hallucinates an incorrect chemical symbol.\",\n      \"score\": 1\n    },\n    \"completeness\": {\n      \"evidence\": \"The chemical symbol for tungsten is Tu.\",\n      \"rationale\": \"It attempts to answer the user's question, though the answer is factually wrong.\",\n      \"score\": 3\n    },\n    \"instruction_following\": {\n      \"evidence\": \"The chemical symbol for tungsten is Tu. To explain in detail:\",\n      \"rationale\": \"The system prompt explicitly requested 'one short sentence', but the response is a lengthy paragraph.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"The chemical symbol for tungsten is Tu.\",\n      \"rationale\": \"The tone is neutral and safe.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The response provides an incorrect chemical symbol for tungsten and fails the length constraint from the system prompt.\"\n}"
+      },
+      {
+        "id": "fact-06:terse_correct",
+        "kind": "terse_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 5.0,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 10,
+        "naive_pass": true,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"404 means Not Found: the server cannot find the requested resource.\",\n      \"rationale\": \"The factual claim accurately matches the reference answer.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"404 means Not Found: the server cannot find the requested resource.\",\n      \"rationale\": \"Everything stated is supported by the reference answer without any invented facts.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"404 means Not Found: the server cannot find the requested resource.\",\n      \"rationale\": \"It fully answers what the HTTP status code 404 means.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"404 means Not Found: the server cannot find the requested resource.\",\n      \"rationale\": \"The response is extremely brief as requested by the system prompt.\",\n      \"score\": 5\n    },\n    \"tone_safety\": {\n      \"evidence\": \"404 means Not Found: the server cannot find the requested resource.\",\n      \"rationale\": \"The tone is direct and appropriate for a senior backend engineer.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The response accurately, briefly, and safely answers the user's question matching all rubric criteria.\"\n}"
+      },
+      {
+        "id": "fact-06:padded_correct",
+        "kind": "padded_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 4.3,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 2,
+          "tone_safety": 4
+        },
+        "naive_ok": true,
+        "naive_score": 4,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"404 means Not Found: the server cannot find the requested resource.\",\n      \"rationale\": \"The core factual claim matches the reference answer exactly.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"404 means Not Found: the server cannot find the requested resource.\",\n      \"rationale\": \"It contains no invented facts, numbers, or sources outside general web knowledge matching the reference.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"404 means Not Found: the server cannot find the requested resource.\",\n      \"rationale\": \"It answers the question fully as requested.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"It is worth noting that questions like this come up often, so it helps to be thorough.\",\n      \"rationale\": \"The system prompt explicitly instructed the model to 'Answer briefly', but the response is padded with a long paragraph of conversational filler and self-justification.\",\n      \"score\": 2\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I hope this detailed explanation fully addresses your question\",\n      \"rationale\": \"The tone is polite and safe, though slightly overly verbose given the persona constraint.\",\n      \"score\": 4\n    }\n  },\n  \"summary\": \"The model gives the correct technical answer for an HTTP 404 status code, but fails the brevity instruction by including excessive conversational padding.\"\n}"
+      },
+      {
+        "id": "fact-06:confident_wrong",
+        "kind": "confident_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 1.4,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 1,
+          "instruction_following": 2,
+          "tone_safety": 3
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"404 means the server hit an internal error while processing the request.\",\n      \"rationale\": \"The claim that 404 means an internal error is completely wrong (a 404 means Not Found, whereas 500 means internal error).\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"404 means the server hit an internal error while processing the request.\",\n      \"rationale\": \"The model invents a completely incorrect definition for a 404 error.\",\n      \"score\": 1\n    },\n    \"completeness\": {\n      \"evidence\": \"404 means the server hit an internal error while processing the request.\",\n      \"rationale\": \"It attempts to answer what the status code means, but gets it completely wrong.\",\n      \"score\": 1\n    },\n    \"instruction_following\": {\n      \"evidence\": \"I'm absolutely certain about this: 404 means the server hit an internal error while processing the request. This is well established, and any expert would confirm it without hesitation.\",\n      \"rationale\": \"The system prompt asks to 'Answer briefly', but the response includes a significant amount of padding, fluff, and false certainty rather than being brief.\",\n      \"score\": 2\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I'm absolutely certain about this: 404 means the server hit an internal error...\",\n      \"rationale\": \"The response is completely safe, though the overly confident tone is misguided given the completely wrong answer.\",\n      \"score\": 3\n    }\n  },\n  \"summary\": \"The response provides completely incorrect information regarding the HTTP 404 status code, fails the brevity constraint, and incorrectly asserts false certainty.\"\n}"
+      },
+      {
+        "id": "fact-06:verbose_wrong",
+        "kind": "verbose_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 1.7,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 3,
+          "completeness": 1,
+          "instruction_following": 1,
+          "tone_safety": 4
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"404 means the server hit an internal error while processing the request\",\n      \"rationale\": \"The model incorrectly claims that 404 means an internal server error (which is actually a 500 error), contradicting the reference answer.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"404 means the server hit an internal error\",\n      \"rationale\": \"The response makes an incorrect factual claim about HTTP status codes, though it does not invent outside numbers or names.\",\n      \"score\": 3\n    },\n    \"completeness\": {\n      \"evidence\": \"404 means the server hit an internal error while processing the request\",\n      \"rationale\": \"It attempts to answer what a 404 means, but provides the wrong definition.\",\n      \"score\": 1\n    },\n    \"instruction_following\": {\n      \"evidence\": \"To explain in detail: the first step is to restate what is being asked...\",\n      \"rationale\": \"The system prompt explicitly states 'Answer briefly', but the response includes a long wall of unnecessary padding and meta-commentary.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"404 means the server hit an internal error while processing the request.\",\n      \"rationale\": \"The tone is safe and polite, though verbose and contradictory to the system prompt.\",\n      \"score\": 4\n    }\n  },\n  \"summary\": \"The model gives an incorrect definition for a 404 error, violates the 'Answer briefly' instruction with verbose padding, and scores poorly across correctness and instruction following.\"\n}"
+      },
+      {
+        "id": "reason-01:terse_correct",
+        "kind": "terse_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 5.0,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 10,
+        "naive_pass": true,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"The ball costs $0.05.\",\n      \"rationale\": \"The final answer correctly matches the reference answer of $0.05.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"The ball costs $0.05.\",\n      \"rationale\": \"The response stays completely true to the problem and the reference without inventing facts.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"The ball costs $0.05.\",\n      \"rationale\": \"It answers the question of how much the ball costs fully.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"The ball costs $0.05.\",\n      \"rationale\": \"The final answer is on the last line as requested by the system prompt.\",\n      \"score\": 5\n    },\n    \"tone_safety\": {\n      \"evidence\": \"The ball costs $0.05.\",\n      \"rationale\": \"The tone is appropriate, safe, and direct.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The model successfully solves the classic math puzzle, accurately matching the reference answer while strictly following all instructions.\"\n}"
+      },
+      {
+        "id": "reason-01:padded_correct",
+        "kind": "padded_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 4.1,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 4
+        },
+        "naive_ok": true,
+        "naive_score": 7,
+        "naive_pass": true,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"The ball costs $0.05.\",\n      \"rationale\": \"The final answer correctly identifies that the ball costs $0.05, matching the reference answer.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"The ball costs $0.05.\",\n      \"rationale\": \"The response does not invent any external facts or numbers beyond solving the math problem.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"The ball costs $0.05.\",\n      \"rationale\": \"It completely answers the user's question about how much the ball costs.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"I hope this detailed explanation fully addresses your question\",\n      \"rationale\": \"The system prompt stated 'Give the final answer on the last line.' The response put the final answer on the first line and followed it with a paragraph of filler, failing the placement constraint.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I hope this detailed explanation fully addresses your question\",\n      \"rationale\": \"The tone is safe and polite, though padded with unnecessary filler text.\",\n      \"score\": 4\n    }\n  },\n  \"summary\": \"The model correctly solves the math problem but fails the negative constraint to put the final answer on the last line.\"\n}"
+      },
+      {
+        "id": "reason-01:confident_wrong",
+        "kind": "confident_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 2.9,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 4
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"The ball costs $0.10\",\n      \"rationale\": \"The model gives the incorrect answer ($0.10 instead of $0.05), which contradicts the reference answer.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"The ball costs $0.10\",\n      \"rationale\": \"The model hallucinates an incorrect mathematical derivation leading to an unsupported number.\",\n      \"score\": 1\n    },\n    \"completeness\": {\n      \"evidence\": \"The ball costs $0.10.\",\n      \"rationale\": \"It answers the question asked by the user, even though the answer is wrong.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"The ball costs $0.10.\",\n      \"rationale\": \"The system prompt required giving the final answer on the last line, which the model did.\",\n      \"score\": 5\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I'm absolutely certain about this: The ball costs $0.10.\",\n      \"rationale\": \"The tone is overly confident and incorrect, but safe.\",\n      \"score\": 4\n    }\n  },\n  \"summary\": \"The model provides an incorrect mathematical answer while following formatting constraints.\"\n}"
+      },
+      {
+        "id": "reason-01:verbose_wrong",
+        "kind": "verbose_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 3.8,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\"criteria\": {\"correctness\": {\"evidence\": \"The ball costs $0.10.\", \"rationale\": \"The model's answer is $0.10, which is incorrect (the correct answer is $0.05).\", \"score\": 1}, \"faithfulness\": {\"evidence\": \"The ball costs $0.10.\", \"rationale\": \"The model does not invent any external facts, numbers or sources outside of solving the math problem incorrectly.\", \"score\": 5}, \"completeness\": {\"evidence\": \"The ball costs $0.10.\", \"rationale\": \"It answers the question asked by the user, providing a final answer.\", \"score\": 5}, \"instruction_following\": {\"evidence\": \"The ball costs $0.10.\", \"rationale\": \"The model followed the instruction to give the final answer on the last line.\", \"score\": 5}, \"tone_safety\": {\"evidence\": \"The ball costs $0.10. To explain in detail...\", \"rationale\": \"The tone is completely safe and appropriate.\", \"score\": 5}}, \"summary\": \"The model provided an incorrect mathematical answer despite following instructions and tone guidelines.\"}"
+      },
+      {
+        "id": "reason-02:terse_correct",
+        "kind": "terse_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 5.0,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 10,
+        "naive_pass": true,
+        "v2_raw": "{\"criteria\": {\"correctness\": {\"evidence\": \"The train arrives at 6:35 pm.\", \"rationale\": \"The final answer matches the reference answer and correctly calculates the arrival time.\", \"score\": 5}, \"faithfulness\": {\"evidence\": \"The train arrives at 6:35 pm.\", \"rationale\": \"The response is fully grounded in the provided problem and reference without inventing extraneous details.\", \"score\": 5}, \"completeness\": {\"evidence\": \"The train arrives at 6:35 pm.\", \"rationale\": \"It answers the question asked by the user fully.\", \"score\": 5}, \"instruction_following\": {\"evidence\": \"The train arrives at 6:35 pm.\", \"rationale\": \"The model solved the problem and put the final answer on the last line as instructed.\", \"score\": 5}, \"tone_safety\": {\"evidence\": \"The train arrives at 6:35 pm.\", \"rationale\": \"The tone is neutral, safe, and appropriate.\", \"score\": 5}}, \"summary\": \"The response accurately answers the question following all instructions and constraints.\"}"
+      },
+      {
+        "id": "reason-02:padded_correct",
+        "kind": "padded_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 4.1,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 4
+        },
+        "naive_ok": true,
+        "naive_score": 4,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"The train arrives at 6:35 pm.\",\n      \"rationale\": \"The final answer correctly matches the reference answer.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"The train arrives at 6:35 pm.\",\n      \"rationale\": \"The response is grounded and does not invent any external facts or numbers beyond the correct arithmetic.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"The train arrives at 6:35 pm.\",\n      \"rationale\": \"It answers the question asked by providing the arrival time.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"The train arrives at 6:35 pm.\",\n      \"rationale\": \"The system prompt asked to give the final answer on the last line. The model placed the final answer on the first line and then added a lot of fluff, failing the instruction constraint.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I hope this detailed explanation fully addresses your question\",\n      \"rationale\": \"The tone is safe and polite, though unnecessarily padded.\",\n      \"score\": 4\n    }\n  },\n  \"summary\": \"The model gives the correct answer but fails the formatting instruction to put the final answer on the last line, and includes unnecessary conversational filler.\"\n}"
+      },
+      {
+        "id": "reason-02:confident_wrong",
+        "kind": "confident_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 3.0,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"The train arrives at 6:25 pm.\",\n      \"rationale\": \"The model's final answer is 6:25 pm, whereas the reference answer is 6:35 pm. Therefore, the answer is incorrect.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"The train arrives at 6:25 pm.\",\n      \"rationale\": \"The model performs an incorrect calculation resulting in an unsupported wrong number compared to the reference.\",\n      \"score\": 1\n    },\n    \"completeness\": {\n      \"evidence\": \"The train arrives at 6:25 pm.\",\n      \"rationale\": \"It addresses the single question asked (arrival time), albeit incorrectly.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"The train arrives at 6:25 pm.\",\n      \"rationale\": \"The system prompt asked to solve the problem and give the final answer on the last line. The model provided the final answer on the last line.\",\n      \"score\": 5\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I'm absolutely certain about this: The train arrives at 6:25 pm.\",\n      \"rationale\": \"The tone is completely safe and appropriate, though factually incorrect and overly confident about a wrong answer.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The model provided an incorrect math calculation leading to the wrong arrival time, but followed formatting instructions and tone guidelines.\"\n}"
+      },
+      {
+        "id": "reason-02:verbose_wrong",
+        "kind": "verbose_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 3.4,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 3,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"The train arrives at 6:25 pm.\",\n      \"rationale\": \"The correct arrival time is 6:35 pm (3:45 pm + 2 hours = 5:45 pm, + 50 minutes = 6:35 pm). The response gives 6:25 pm, which is wrong.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"The train arrives at 6:25 pm.\",\n      \"rationale\": \"The response does not introduce outside facts or names, but it miscalculates the math from the input.\",\n      \"score\": 3\n    },\n    \"completeness\": {\n      \"evidence\": \"The train arrives at 6:25 pm.\",\n      \"rationale\": \"It answers the question asked, even though the answer is mathematically incorrect.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"The train arrives at 6:25 pm.\",\n      \"rationale\": \"The system prompt requested to 'Give the final answer on the last line', which the model did.\",\n      \"score\": 5\n    },\n    \"tone_safety\": {\n      \"evidence\": \"The train arrives at 6:25 pm. To explain in detail...\",\n      \"rationale\": \"The tone is neutral and safe, though filled with padding.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The response correctly follows formatting instructions and is safe, but provides a mathematically incorrect final answer.\"\n}"
+      },
+      {
+        "id": "reason-03:terse_correct",
+        "kind": "terse_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 5.0,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 10,
+        "naive_pass": true,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"408\",\n      \"rationale\": \"The multiplication of 17 by 24 is calculated correctly as 408, matching the reference answer.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"17 x 24 = 408.\",\n      \"rationale\": \"Every number and calculation is completely supported by the math problem.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"17 x 24 = 408.\",\n      \"rationale\": \"It answers the question fully by providing the product.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"17 x 24 = 408.\",\n      \"rationale\": \"The final answer is on the last line as instructed by the system prompt.\",\n      \"score\": 5\n    },\n    \"tone_safety\": {\n      \"evidence\": \"17 x 24 = 408.\",\n      \"rationale\": \"The tone is appropriate, safe, and direct.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The response accurately and concisely solves the math problem while following all system instructions.\"\n}"
+      },
+      {
+        "id": "reason-03:padded_correct",
+        "kind": "padded_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 4.0,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 3
+        },
+        "naive_ok": true,
+        "naive_score": 8,
+        "naive_pass": true,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"17 x 24 = 408\",\n      \"rationale\": \"The mathematical calculation is correct and matches the reference answer.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"17 x 24 = 408\",\n      \"rationale\": \"The response contains no unsupported facts or numbers outside of the correct multiplication.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"17 x 24 = 408\",\n      \"rationale\": \"It answers the multiplication problem fully.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"17 x 24 = 408. It is worth noting...\",\n      \"rationale\": \"The system prompt specified to give the final answer on the last line, but the response places conversational padding after the final answer.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"It is worth noting that questions like this come up often\",\n      \"rationale\": \"The tone is overly wordy and preachy, filling space with unnecessary padding.\",\n      \"score\": 3\n    }\n  },\n  \"summary\": \"The model correctly calculated the math problem, but failed the formatting instruction to place the final answer on the last line and included excessive conversational padding.\"\n}"
+      },
+      {
+        "id": "reason-03:confident_wrong",
+        "kind": "confident_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 2.5,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 3,
+          "instruction_following": 5,
+          "tone_safety": 4
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"17 x 24 = 418\",\n      \"rationale\": \"The model's final calculation of 418 is incorrect; the correct answer is 408.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"17 x 24 = 418\",\n      \"rationale\": \"The model invents an incorrect mathematical fact.\",\n      \"score\": 1\n    },\n    \"completeness\": {\n      \"evidence\": \"17 x 24 = 418\",\n      \"rationale\": \"It attempts to answer the multiplication problem, but gets the answer wrong.\",\n      \"score\": 3\n    },\n    \"instruction_following\": {\n      \"evidence\": \"17 x 24 = 418.\",\n      \"rationale\": \"The model gave the final answer on the last line as requested by the system prompt.\",\n      \"score\": 5\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I'm absolutely certain about this\",\n      \"rationale\": \"The tone is completely safe, though inappropriately overconfident about a wrong answer.\",\n      \"score\": 4\n    }\n  },\n  \"summary\": \"The model gives an incorrect answer to the arithmetic problem despite following formatting instructions.\"\n}"
+      },
+      {
+        "id": "reason-03:verbose_wrong",
+        "kind": "verbose_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 3.4,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 3,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"17 x 24 = 418\",\n      \"rationale\": \"The computed final answer is 418, whereas the reference answer is 408. The math is incorrect.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"17 x 24 = 418\",\n      \"rationale\": \"The response stays within the context of the requested problem, but computes an incorrect factual multiplication result.\",\n      \"score\": 3\n    },\n    \"completeness\": {\n      \"evidence\": \"17 x 24 = 418\",\n      \"rationale\": \"It answers the question asked by providing a calculation and final answer.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"17 x 24 = 418.\",\n      \"rationale\": \"The model successfully followed the constraint to give the final answer on the last line.\",\n      \"score\": 5\n    },\n    \"tone_safety\": {\n      \"evidence\": \"To explain in detail: the first step is to restate what is being asked...\",\n      \"rationale\": \"The tone is neutral, safe, and appropriate for the setting.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The model followed all formatting instructions and tone guidelines, but the mathematical calculation was incorrect.\"\n}"
+      },
+      {
+        "id": "reason-04:terse_correct",
+        "kind": "terse_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 5.0,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 10,
+        "naive_pass": true,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"Sally has 1 sister.\",\n      \"rationale\": \"The answer correctly identifies that Sally has 1 sister, which aligns with the reference answer.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"Sally has 1 sister.\",\n      \"rationale\": \"The response is fully grounded in the logical deduction from the user input and matches the reference.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"Sally has 1 sister.\",\n      \"rationale\": \"The response answers the question asked by the user completely.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"Sally has 1 sister.\",\n      \"rationale\": \"The final answer is given on the last line, following the system prompt instruction.\",\n      \"score\": 5\n    },\n    \"tone_safety\": {\n      \"evidence\": \"Sally has 1 sister.\",\n      \"rationale\": \"The tone is completely appropriate and safe.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The response correctly and concisely answers the logic puzzle while following all constraints.\"\n}"
+      },
+      {
+        "id": "reason-04:padded_correct",
+        "kind": "padded_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 4.8,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 3
+        },
+        "naive_ok": true,
+        "naive_score": 8,
+        "naive_pass": true,
+        "v2_raw": "{\"criteria\": {\"correctness\": {\"evidence\": \"Sally has 1 sister.\", \"rationale\": \"The model correctly identifies that Sally has 1 sister, which matches the reference answer.\", \"score\": 5}, \"faithfulness\": {\"evidence\": \"Sally has 1 sister.\", \"rationale\": \"The model states the correct fact without inventing unsupported numbers or details.\", \"score\": 5}, \"completeness\": {\"evidence\": \"Sally has 1 sister.\", \"rationale\": \"The model answers the single question asked by the user.\", \"score\": 5}, \"instruction_following\": {\"evidence\": \"Sally has 1 sister.\", \"rationale\": \"The model solves the problem and places the final answer on the last line.\", \"score\": 5}, \"tone_safety\": {\"evidence\": \"It is worth noting that questions like this come up often\", \"rationale\": \"The tone is overly chatty and padded with unnecessary filler, making it slightly off for a simple math puzzle.\", \"score\": 3}}, \"summary\": \"The model answers the math puzzle correctly and follows all instructions, but includes unnecessary filler text in its response.\"}"
+      },
+      {
+        "id": "reason-04:confident_wrong",
+        "kind": "confident_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 2.4,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 3,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 3
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"Sally has 2 sisters.\",\n      \"rationale\": \"The reference answer states Sally has 1 sister, so the model's answer of 2 is factually incorrect based on the riddle logic.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"Sally has 2 sisters.\",\n      \"rationale\": \"The response does not add external hallucinations, but answers incorrectly based on the problem.\",\n      \"score\": 3\n    },\n    \"completeness\": {\n      \"evidence\": \"Sally has 2 sisters.\",\n      \"rationale\": \"The response attempts to answer the core question asked by the user.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"Sally has 2 sisters.\",\n      \"rationale\": \"The model failed to give the final answer on the last line in a structured way (it included conversational padding before the answer), though the answer is at the end. Wait, the system prompt asked to give the final answer on the last line. The last line is 'This is well established, and any expert would confirm it without hesitation.' which is not the final answer.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I'm absolutely certain about this: Sally has 2 sisters. This is well established, and any expert would confirm it without hesitation.\",\n      \"rationale\": \"The tone is overly assertive and boastful despite being completely wrong, but it is safe and free of harmful content.\",\n      \"score\": 3\n    }\n  },\n  \"summary\": \"The model gave an incorrect answer to the riddle, failed the system prompt instruction to put the final answer on the last line, and adopted an overconfident tone.\"\n}"
+      },
+      {
+        "id": "reason-04:verbose_wrong",
+        "kind": "verbose_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 3.8,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"Sally has 2 sisters.\",\n      \"rationale\": \"The reference answer is 1 sister, so the main answer of 2 is incorrect.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"Sally has 2 sisters.\",\n      \"rationale\": \"The response stays within the context of the input problem without inventing outside names or facts, though its logical conclusion is wrong.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"Sally has 2 sisters.\",\n      \"rationale\": \"It answers the question asked by the user, providing a final count.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"Sally has 2 sisters.\",\n      \"rationale\": \"The system prompt asked to give the final answer on the last line, which the response did.\",\n      \"score\": 5\n    },\n    \"tone_safety\": {\n      \"evidence\": \"Sally has 2 sisters.\",\n      \"rationale\": \"The tone is completely safe and appropriate.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The model followed instructions and tone requirements, but failed on correctness by giving the wrong number of sisters.\"\n}"
+      },
+      {
+        "id": "context-01:terse_correct",
+        "kind": "terse_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 5.0,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 10,
+        "naive_pass": true,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"No. Headphones are electronics, and electronics can only be returned within 15 days.\",\n      \"rationale\": \"Every claim is right and consistent with the reference answer.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"Headphones are electronics, and electronics can only be returned within 15 days.\",\n      \"rationale\": \"All details are directly derived from the provided policy context.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"No.\",\n      \"rationale\": \"It answers whether the headphones can be returned and provides the reason.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"No. Headphones are electronics, and electronics can only be returned within 15 days.\",\n      \"rationale\": \"Acts as a store support assistant and answers strictly from the policy context without extra fluff.\",\n      \"score\": 5\n    },\n    \"tone_safety\": {\n      \"evidence\": \"No. Headphones are electronics, and electronics can only be returned within 15 days.\",\n      \"rationale\": \"The tone is direct, helpful, and appropriate for a store support assistant.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The response accurately, faithfully, and completely answers the user's question using only the provided policy context while following all instructions.\"\n}"
+      },
+      {
+        "id": "context-01:padded_correct",
+        "kind": "padded_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 4.2,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 2,
+          "tone_safety": 3
+        },
+        "naive_ok": true,
+        "naive_score": 4,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"No. Headphones are electronics, and electronics can only be returned within 15 days.\",\n      \"rationale\": \"The core answer is entirely correct and consistent with the reference answer.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"Headphones are electronics, and electronics can only be returned within 15 days.\",\n      \"rationale\": \"All claims are strictly based on the provided context.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"No.\",\n      \"rationale\": \"It directly answers whether the headphones can be returned based on the days elapsed.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"It is worth noting that questions like this come up often\",\n      \"rationale\": \"The system prompt asks to 'Answer only from the policy in the context.' The model includes extensive conversational padding and meta-commentary that is not part of the policy.\",\n      \"score\": 2\n    },\n    \"tone_safety\": {\n      \"evidence\": \"It is worth noting that questions like this come up often, so it helps to be thorough.\",\n      \"rationale\": \"The tone is overly chatty and preachy, failing to sound like a concise store support assistant.\",\n      \"score\": 3\n    }\n  },\n  \"summary\": \"The model correctly answers the question using the context, but includes unnecessary padding and preachy text that violates the concise instruction-following constraint.\"\n}"
+      },
+      {
+        "id": "context-01:confident_wrong",
+        "kind": "confident_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 2.2,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 2,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 3
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"Yes, you can return them\",\n      \"rationale\": \"The reference answer states that headphones are electronics and can only be returned within 15 days, so a 20-day-old purchase cannot be returned. The model gives the wrong answer.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"you are still within the 30-day return window\",\n      \"rationale\": \"While headphones are electronics (15-day limit per context), the model treats them under the general 30-day window, contradicting the specific policy for electronics provided in the context.\",\n      \"score\": 2\n    },\n    \"completeness\": {\n      \"evidence\": \"Yes, you can return them\",\n      \"rationale\": \"The user asked if they can return headphones after 20 days, and the model answered the question (though incorrectly).\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"I'm absolutely certain about this: Yes, you can return them\",\n      \"rationale\": \"The system prompt asks to answer only from the policy in the context. The model violated this by misapplying the general 30-day policy to electronics, which have a 15-day limit.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I'm absolutely certain about this: Yes, you can return them because you are still within the 30-day return window.\",\n      \"rationale\": \"The tone is overly confident and pushy, but it is safe and not rude.\",\n      \"score\": 3\n    }\n  },\n  \"summary\": \"The model gave an incorrect answer because it failed to recognize that headphones are electronics subject to a 15-day return policy.\"\n}"
+      },
+      {
+        "id": "context-01:verbose_wrong",
+        "kind": "verbose_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 1.6,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 3,
+          "instruction_following": 1,
+          "tone_safety": 3
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\"criteria\": {\"correctness\": {\"evidence\": \"Yes, you can return them\", \"rationale\": \"The model states the headphones can be returned, which contradicts the reference answer and context stating electronics must be returned within 15 days.\", \"score\": 1}, \"faithfulness\": {\"evidence\": \"within the 30-day return window\", \"rationale\": \"The model applies the general 30-day window instead of the specific 15-day policy for electronics, directly misapplying the context.\", \"score\": 1}, \"completeness\": {\"evidence\": \"Yes, you can return them\", \"rationale\": \"It addresses the user's question about whether they can return the headphones, albeit with the wrong answer.\", \"score\": 3}, \"instruction_following\": {\"evidence\": \"Yes, you can return them because you are still within the 30-day return window.\", \"rationale\": \"The model fails to answer correctly from the policy in the context regarding electronics (15 days).\", \"score\": 1}, \"tone_safety\": {\"evidence\": \"Yes, you can return them because you are still within the 30-day return window.\", \"rationale\": \"The tone is safe and polite, though overly verbose and filled with fluff.\", \"score\": 3}}, \"summary\": \"The model incorrectly answers that headphones can be returned within 30 days, ignoring the specific 15-day electronics return policy.\"}"
+      },
+      {
+        "id": "context-04:terse_correct",
+        "kind": "terse_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 5.0,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 5,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 10,
+        "naive_pass": true,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"You need Python 3.10 or newer, and Windows 7 is no longer supported.\",\n      \"rationale\": \"Every claim is right and consistent with the reference answer.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"You need Python 3.10 or newer, and Windows 7 is no longer supported.\",\n      \"rationale\": \"All details are directly supported by the provided context.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"You need Python 3.10 or newer, and Windows 7 is no longer supported.\",\n      \"rationale\": \"It answers both parts of the user's question regarding the Python version and Windows 7 support.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"You need Python 3.10 or newer, and Windows 7 is no longer supported.\",\n      \"rationale\": \"The model answers using only the release notes in the context as requested.\",\n      \"score\": 5\n    },\n    \"tone_safety\": {\n      \"evidence\": \"You need Python 3.10 or newer, and Windows 7 is no longer supported.\",\n      \"rationale\": \"The tone is appropriate, safe, and helpful.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The response accurately and completely answers both questions using only the provided release notes.\"\n}"
+      },
+      {
+        "id": "context-04:padded_correct",
+        "kind": "padded_correct",
+        "gold": "pass",
+        "v2_ok": true,
+        "v2_overall": 4.4,
+        "v2_pass": true,
+        "v2_scores": {
+          "correctness": 5,
+          "faithfulness": 5,
+          "completeness": 5,
+          "instruction_following": 3,
+          "tone_safety": 3
+        },
+        "naive_ok": true,
+        "naive_score": 4,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"You need Python 3.10 or newer, and Windows 7 is no longer supported.\",\n      \"rationale\": \"The model correctly answers both parts of the question based on the reference and context.\",\n      \"score\": 5\n    },\n    \"faithfulness\": {\n      \"evidence\": \"You need Python 3.10 or newer, and Windows 7 is no longer supported.\",\n      \"rationale\": \"All factual claims are fully supported by the provided context.\",\n      \"score\": 5\n    },\n    \"completeness\": {\n      \"evidence\": \"You need Python 3.10 or newer, and Windows 7 is no longer supported.\",\n      \"rationale\": \"It answers both questions asked by the user (Python version and Windows 7 compatibility).\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"You need Python 3.10 or newer, and Windows 7 is no longer supported. It is worth noting...\",\n      \"rationale\": \"The system prompt asked to answer using only the release notes in the context, which the model did, but it also padded the response with generic fluff.\",\n      \"score\": 3\n    },\n    \"tone_safety\": {\n      \"evidence\": \"It is worth noting that questions like this come up often, so it helps to be thorough.\",\n      \"rationale\": \"The tone is safe, but mildly preachy and filled with unnecessary conversational padding.\",\n      \"score\": 3\n    }\n  },\n  \"summary\": \"The model answers the prompt correctly using the provided context, but includes excessive conversational padding and preachy text that violates the spirit of concise source-based answering.\"\n}"
+      },
+      {
+        "id": "context-04:confident_wrong",
+        "kind": "confident_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 2.0,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 3
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"You need Python 3.8 or newer, and Windows 7 is still supported.\",\n      \"rationale\": \"The model's claims directly contradict the reference answer and the context provided.\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"You need Python 3.8 or newer, and Windows 7 is still supported.\",\n      \"rationale\": \"The model invents facts (Python 3.8, Windows 7 still supported) that contradict the provided context.\",\n      \"score\": 1\n    },\n    \"completeness\": {\n      \"evidence\": \"You need Python 3.8 or newer, and Windows 7 is still supported.\",\n      \"rationale\": \"The model addresses both parts of the user's question (Python version and Windows 7 support), even though the answers are wrong.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"I'm absolutely certain about this: You need Python 3.8 or newer...\",\n      \"rationale\": \"The system prompt specified to answer using only the release notes in the context, but the response contradicts the context.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"I'm absolutely certain about this: ... any expert would confirm it without hesitation.\",\n      \"rationale\": \"The tone is overly defensive and inappropriately confident given that the information is completely wrong, but it is not unsafe.\",\n      \"score\": 3\n    }\n  },\n  \"summary\": \"The model fails on correctness, faithfulness, and instruction following by providing incorrect answers that directly contradict the given context.\"\n}"
+      },
+      {
+        "id": "context-04:verbose_wrong",
+        "kind": "verbose_wrong",
+        "gold": "fail",
+        "v2_ok": true,
+        "v2_overall": 2.2,
+        "v2_pass": false,
+        "v2_scores": {
+          "correctness": 1,
+          "faithfulness": 1,
+          "completeness": 5,
+          "instruction_following": 1,
+          "tone_safety": 5
+        },
+        "naive_ok": true,
+        "naive_score": 1,
+        "naive_pass": false,
+        "v2_raw": "{\n  \"criteria\": {\n    \"correctness\": {\n      \"evidence\": \"You need Python 3.8 or newer, and Windows 7 is still supported.\",\n      \"rationale\": \"The model gives incorrect answers that contradict the reference and context (it says Python 3.8 instead of 3.10, and claims Windows 7 is supported when the context states it was removed).\",\n      \"score\": 1\n    },\n    \"faithfulness\": {\n      \"evidence\": \"You need Python 3.8 or newer\",\n      \"rationale\": \"The model invents facts (Python 3.8 and Windows 7 support) that directly contradict the provided context.\",\n      \"score\": 1\n    },\n    \"completeness\": {\n      \"evidence\": \"You need Python 3.8 or newer, and Windows 7 is still supported.\",\n      \"rationale\": \"The model addresses both parts of the user question (Python version and Windows 7 compatibility), even though the answers are wrong.\",\n      \"score\": 5\n    },\n    \"instruction_following\": {\n      \"evidence\": \"You need Python 3.8 or newer, and Windows 7 is still supported. To explain in detail...\",\n      \"rationale\": \"The system prompt stated 'Answer using only the release notes in the context', but the model used outside/incorrect information and added padding, violating the strict grounding constraint.\",\n      \"score\": 1\n    },\n    \"tone_safety\": {\n      \"evidence\": \"You need Python 3.8 or newer, and Windows 7 is still supported.\",\n      \"rationale\": \"The tone is polite and safe, although filled with unnecessary filler text.\",\n      \"score\": 5\n    }\n  },\n  \"summary\": \"The model fails on correctness, faithfulness, and instruction following by providing false information that contradicts the context and violating the negative constraint to use only the provided context.\"\n}"
+      }
+    ]
+  },
+  "mtbench": {
+    "source": "lmsys/mt_bench_human_judgments (expert votes, first turn)",
+    "naive": {
+      "pairs": 30,
+      "flip_rate": 0.2333,
+      "first_position_win_rate_when_decisive": 0.614,
+      "agreement_single_order": 0.6667,
+      "kappa_single_order": 0.4059,
+      "agreement_both_orders": 0.6333,
+      "kappa_both_orders": 0.4261,
+      "agreement_non_tie_humans_single": 0.8,
+      "agreement_non_tie_humans_both": 0.68,
+      "judge_label_counts_both": {
+        "A": 13,
+        "B": 9,
+        "tie": 8
+      },
+      "human_label_counts": {
+        "A": 15,
+        "B": 10,
+        "tie": 5
+      }
+    },
+    "v2": {
+      "pairs": 30,
+      "flip_rate": 0.1667,
+      "first_position_win_rate_when_decisive": 0.537,
+      "agreement_single_order": 0.7,
+      "kappa_single_order": 0.4857,
+      "agreement_both_orders": 0.6667,
+      "kappa_both_orders": 0.4737,
+      "agreement_non_tie_humans_single": 0.84,
+      "agreement_non_tie_humans_both": 0.72,
+      "judge_label_counts_both": {
+        "A": 13,
+        "B": 10,
+        "tie": 7
+      },
+      "human_label_counts": {
+        "A": 15,
+        "B": 10,
+        "tie": 5
+      }
+    },
+    "rows": [
+      {
+        "id": "mtb-95-gpt-4-vs-vicuna-13b-v1.2",
+        "human": "A",
+        "models": [
+          "gpt-4",
+          "vicuna-13b-v1.2"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-125-gpt-3.5-turbo-vs-vicuna-13b-v1.2",
+        "human": "B",
+        "models": [
+          "gpt-3.5-turbo",
+          "vicuna-13b-v1.2"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-146-gpt-3.5-turbo-vs-alpaca-13b",
+        "human": "A",
+        "models": [
+          "gpt-3.5-turbo",
+          "alpaca-13b"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-148-vicuna-13b-v1.2-vs-claude-v1",
+        "human": "B",
+        "models": [
+          "vicuna-13b-v1.2",
+          "claude-v1"
+        ],
+        "naive": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        },
+        "v2": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        }
+      },
+      {
+        "id": "mtb-112-gpt-4-vs-alpaca-13b",
+        "human": "A",
+        "models": [
+          "gpt-4",
+          "alpaca-13b"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-99-vicuna-13b-v1.2-vs-gpt-4",
+        "human": "B",
+        "models": [
+          "vicuna-13b-v1.2",
+          "gpt-4"
+        ],
+        "naive": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        },
+        "v2": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        }
+      },
+      {
+        "id": "mtb-91-gpt-3.5-turbo-vs-claude-v1",
+        "human": "B",
+        "models": [
+          "gpt-3.5-turbo",
+          "claude-v1"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "B",
+          "flipped": true,
+          "final": "tie",
+          "first_pos_wins": [
+            true,
+            true
+          ]
+        },
+        "v2": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        }
+      },
+      {
+        "id": "mtb-156-claude-v1-vs-alpaca-13b",
+        "human": "A",
+        "models": [
+          "claude-v1",
+          "alpaca-13b"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-138-gpt-3.5-turbo-vs-llama-13b",
+        "human": "A",
+        "models": [
+          "gpt-3.5-turbo",
+          "llama-13b"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-116-claude-v1-vs-vicuna-13b-v1.2",
+        "human": "tie",
+        "models": [
+          "claude-v1",
+          "vicuna-13b-v1.2"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-152-vicuna-13b-v1.2-vs-gpt-3.5-turbo",
+        "human": "A",
+        "models": [
+          "vicuna-13b-v1.2",
+          "gpt-3.5-turbo"
+        ],
+        "naive": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        },
+        "v2": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        }
+      },
+      {
+        "id": "mtb-100-llama-13b-vs-alpaca-13b",
+        "human": "B",
+        "models": [
+          "llama-13b",
+          "alpaca-13b"
+        ],
+        "naive": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        },
+        "v2": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        }
+      },
+      {
+        "id": "mtb-107-gpt-3.5-turbo-vs-claude-v1",
+        "human": "tie",
+        "models": [
+          "gpt-3.5-turbo",
+          "claude-v1"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "B",
+          "flipped": true,
+          "final": "tie",
+          "first_pos_wins": [
+            true,
+            true
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "tie",
+          "flipped": true,
+          "final": "tie",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-140-vicuna-13b-v1.2-vs-gpt-4",
+        "human": "B",
+        "models": [
+          "vicuna-13b-v1.2",
+          "gpt-4"
+        ],
+        "naive": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        },
+        "v2": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        }
+      },
+      {
+        "id": "mtb-150-gpt-3.5-turbo-vs-alpaca-13b",
+        "human": "A",
+        "models": [
+          "gpt-3.5-turbo",
+          "alpaca-13b"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "B",
+          "flipped": true,
+          "final": "tie",
+          "first_pos_wins": [
+            true,
+            true
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "B",
+          "flipped": true,
+          "final": "tie",
+          "first_pos_wins": [
+            true,
+            true
+          ]
+        }
+      },
+      {
+        "id": "mtb-156-gpt-4-vs-gpt-3.5-turbo",
+        "human": "A",
+        "models": [
+          "gpt-4",
+          "gpt-3.5-turbo"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-148-alpaca-13b-vs-gpt-4",
+        "human": "B",
+        "models": [
+          "alpaca-13b",
+          "gpt-4"
+        ],
+        "naive": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        },
+        "v2": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        }
+      },
+      {
+        "id": "mtb-108-gpt-3.5-turbo-vs-gpt-4",
+        "human": "B",
+        "models": [
+          "gpt-3.5-turbo",
+          "gpt-4"
+        ],
+        "naive": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        },
+        "v2": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        }
+      },
+      {
+        "id": "mtb-124-vicuna-13b-v1.2-vs-claude-v1",
+        "human": "tie",
+        "models": [
+          "vicuna-13b-v1.2",
+          "claude-v1"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "tie",
+          "flipped": true,
+          "final": "tie",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "tie",
+          "flipped": true,
+          "final": "tie",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-110-llama-13b-vs-gpt-3.5-turbo",
+        "human": "tie",
+        "models": [
+          "llama-13b",
+          "gpt-3.5-turbo"
+        ],
+        "naive": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        },
+        "v2": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        }
+      },
+      {
+        "id": "mtb-107-claude-v1-vs-alpaca-13b",
+        "human": "A",
+        "models": [
+          "claude-v1",
+          "alpaca-13b"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "B",
+          "flipped": true,
+          "final": "tie",
+          "first_pos_wins": [
+            true,
+            true
+          ]
+        },
+        "v2": {
+          "ab": "tie",
+          "ba_mapped": "tie",
+          "flipped": false,
+          "final": "tie",
+          "first_pos_wins": [
+            false,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-133-claude-v1-vs-alpaca-13b",
+        "human": "tie",
+        "models": [
+          "claude-v1",
+          "alpaca-13b"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-92-gpt-4-vs-alpaca-13b",
+        "human": "A",
+        "models": [
+          "gpt-4",
+          "alpaca-13b"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-101-claude-v1-vs-llama-13b",
+        "human": "B",
+        "models": [
+          "claude-v1",
+          "llama-13b"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "B",
+          "flipped": true,
+          "final": "tie",
+          "first_pos_wins": [
+            true,
+            true
+          ]
+        },
+        "v2": {
+          "ab": "B",
+          "ba_mapped": "A",
+          "flipped": true,
+          "final": "tie",
+          "first_pos_wins": [
+            false,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-100-gpt-3.5-turbo-vs-alpaca-13b",
+        "human": "B",
+        "models": [
+          "gpt-3.5-turbo",
+          "alpaca-13b"
+        ],
+        "naive": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        },
+        "v2": {
+          "ab": "B",
+          "ba_mapped": "B",
+          "flipped": false,
+          "final": "B",
+          "first_pos_wins": [
+            false,
+            true
+          ]
+        }
+      },
+      {
+        "id": "mtb-91-claude-v1-vs-llama-13b",
+        "human": "A",
+        "models": [
+          "claude-v1",
+          "llama-13b"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "B",
+          "flipped": true,
+          "final": "tie",
+          "first_pos_wins": [
+            true,
+            true
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-156-llama-13b-vs-alpaca-13b",
+        "human": "A",
+        "models": [
+          "llama-13b",
+          "alpaca-13b"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "B",
+          "flipped": true,
+          "final": "tie",
+          "first_pos_wins": [
+            true,
+            true
+          ]
+        }
+      },
+      {
+        "id": "mtb-99-claude-v1-vs-llama-13b",
+        "human": "A",
+        "models": [
+          "claude-v1",
+          "llama-13b"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-108-gpt-4-vs-claude-v1",
+        "human": "A",
+        "models": [
+          "gpt-4",
+          "claude-v1"
+        ],
+        "naive": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        },
+        "v2": {
+          "ab": "A",
+          "ba_mapped": "A",
+          "flipped": false,
+          "final": "A",
+          "first_pos_wins": [
+            true,
+            false
+          ]
+        }
+      },
+      {
+        "id": "mtb-142-alpaca-13b-vs-vicuna-13b-v1.2",
+        "human": "A",
+        "models": [
+          "alpaca-13b",
+          "vicuna-13b-v1.2"
+        ],
+        "naive": {
+          "ab": "tie",
+          "ba_mapped": "tie",
+          "flipped": false,
+          "final": "tie",
+          "first_pos_wins": [
+            false,
+            false
+          ]
+        },
+        "v2": {
+          "ab": "tie",
+          "ba_mapped": "tie",
+          "flipped": false,
+          "final": "tie",
+          "first_pos_wins": [
+            false,
+            false
+          ]
+        }
+      }
+    ]
+  },
+  "selfpref": {
+    "gemini": {
+      "gptoss_wins": 0.0,
+      "gemini_wins": 0.0,
+      "ties": 1.0
+    },
+    "gpt-oss": {
+      "gptoss_wins": 0.0833,
+      "gemini_wins": 0.0,
+      "ties": 0.9167
+    },
+    "qwen (neutral)": {
+      "gptoss_wins": 0.0,
+      "gemini_wins": 0.1667,
+      "ties": 0.8333
+    },
+    "self_preference": {
+      "gemini_judge_for_gemini": -0.1667,
+      "gptoss_judge_for_gptoss": 0.0833
+    },
+    "rows": [
+      {
+        "id": "fact-01",
+        "gemini": "tie",
+        "gpt-oss": "tie",
+        "qwen (neutral)": "tie"
+      },
+      {
+        "id": "fact-02",
+        "gemini": "tie",
+        "gpt-oss": "tie",
+        "qwen (neutral)": "tie"
+      },
+      {
+        "id": "fact-03",
+        "gemini": "tie",
+        "gpt-oss": "tie",
+        "qwen (neutral)": "tie"
+      },
+      {
+        "id": "fact-04",
+        "gemini": "tie",
+        "gpt-oss": "tie",
+        "qwen (neutral)": "tie"
+      },
+      {
+        "id": "fact-05",
+        "gemini": "tie",
+        "gpt-oss": "tie",
+        "qwen (neutral)": "tie"
+      },
+      {
+        "id": "fact-06",
+        "gemini": "tie",
+        "gpt-oss": "tie",
+        "qwen (neutral)": "B"
+      },
+      {
+        "id": "reason-01",
+        "gemini": "tie",
+        "gpt-oss": "tie",
+        "qwen (neutral)": "tie"
+      },
+      {
+        "id": "reason-02",
+        "gemini": "tie",
+        "gpt-oss": "A",
+        "qwen (neutral)": "tie"
+      },
+      {
+        "id": "reason-03",
+        "gemini": "tie",
+        "gpt-oss": "tie",
+        "qwen (neutral)": "tie"
+      },
+      {
+        "id": "reason-04",
+        "gemini": "tie",
+        "gpt-oss": "tie",
+        "qwen (neutral)": "tie"
+      },
+      {
+        "id": "format-01",
+        "gemini": "tie",
+        "gpt-oss": "tie",
+        "qwen (neutral)": "tie"
+      },
+      {
+        "id": "format-02",
+        "gemini": "tie",
+        "gpt-oss": "tie",
+        "qwen (neutral)": "B"
+      }
+    ]
+  },
+  "retest": {
+    "temperature_0.7": {
+      "samples": 3,
+      "pointwise": {
+        "items": 12,
+        "verdict_flip_rate": 0.0,
+        "mean_overall_std": 0.077,
+        "rows": [
+          {
+            "id": "fact-01:terse_correct",
+            "verdicts": [
+              true,
+              true,
+              true
+            ],
+            "flipped": false,
+            "overall_std": 0.0
+          },
+          {
+            "id": "fact-01:padded_correct",
+            "verdicts": [
+              true,
+              true,
+              true
+            ],
+            "flipped": false,
+            "overall_std": 0.047140452079103
+          },
+          {
+            "id": "fact-01:confident_wrong",
+            "verdicts": [
+              false,
+              false,
+              false
+            ],
+            "flipped": false,
+            "overall_std": 0.16996731711975954
+          },
+          {
+            "id": "fact-01:verbose_wrong",
+            "verdicts": [
+              false,
+              false,
+              false
+            ],
+            "flipped": false,
+            "overall_std": 0.18856180831641264
+          },
+          {
+            "id": "fact-02:terse_correct",
+            "verdicts": [
+              true,
+              true,
+              true
+            ],
+            "flipped": false,
+            "overall_std": 0.0
+          },
+          {
+            "id": "fact-02:padded_correct",
+            "verdicts": [
+              true,
+              true,
+              true
+            ],
+            "flipped": false,
+            "overall_std": 0.0
+          },
+          {
+            "id": "fact-02:confident_wrong",
+            "verdicts": [
+              false,
+              false,
+              false
+            ],
+            "flipped": false,
+            "overall_std": 0.04714045207910321
+          },
+          {
+            "id": "fact-02:verbose_wrong",
+            "verdicts": [
+              false,
+              false,
+              false
+            ],
+            "flipped": false,
+            "overall_std": 0.0
+          },
+          {
+            "id": "fact-03:terse_correct",
+            "verdicts": [
+              true,
+              true,
+              true
+            ],
+            "flipped": false,
+            "overall_std": 0.0
+          },
+          {
+            "id": "fact-03:padded_correct",
+            "verdicts": [
+              true,
+              true,
+              true
+            ],
+            "flipped": false,
+            "overall_std": 0.047140452079103
+          },
+          {
+            "id": "fact-03:confident_wrong",
+            "verdicts": [
+              false,
+              false,
+              false
+            ],
+            "flipped": false,
+            "overall_std": 0.23570226039551595
+          },
+          {
+            "id": "fact-03:verbose_wrong",
+            "verdicts": [
+              false,
+              false,
+              false
+            ],
+            "flipped": false,
+            "overall_std": 0.18856180831641273
+          }
+        ]
+      },
+      "pairwise": {
+        "pairs": 10,
+        "winner_flip_rate": 0.3,
+        "rows": [
+          {
+            "id": "mtb-95-gpt-4-vs-vicuna-13b-v1.2",
+            "winners": [
+              "A",
+              "A",
+              "A"
+            ],
+            "flipped": false
+          },
+          {
+            "id": "mtb-125-gpt-3.5-turbo-vs-vicuna-13b-v1.2",
+            "winners": [
+              "A",
+              "A",
+              "A"
+            ],
+            "flipped": false
+          },
+          {
+            "id": "mtb-146-gpt-3.5-turbo-vs-alpaca-13b",
+            "winners": [
+              "A",
+              "A",
+              "A"
+            ],
+            "flipped": false
+          },
+          {
+            "id": "mtb-148-vicuna-13b-v1.2-vs-claude-v1",
+            "winners": [
+              "tie",
+              "B",
+              "B"
+            ],
+            "flipped": true
+          },
+          {
+            "id": "mtb-112-gpt-4-vs-alpaca-13b",
+            "winners": [
+              "A",
+              "A",
+              "A"
+            ],
+            "flipped": false
+          },
+          {
+            "id": "mtb-99-vicuna-13b-v1.2-vs-gpt-4",
+            "winners": [
+              "A",
+              "B",
+              "A"
+            ],
+            "flipped": true
+          },
+          {
+            "id": "mtb-91-gpt-3.5-turbo-vs-claude-v1",
+            "winners": [
+              "A",
+              "A",
+              "B"
+            ],
+            "flipped": true
+          },
+          {
+            "id": "mtb-156-claude-v1-vs-alpaca-13b",
+            "winners": [
+              "A",
+              "A",
+              "A"
+            ],
+            "flipped": false
+          },
+          {
+            "id": "mtb-138-gpt-3.5-turbo-vs-llama-13b",
+            "winners": [
+              "A",
+              "A",
+              "A"
+            ],
+            "flipped": false
+          },
+          {
+            "id": "mtb-116-claude-v1-vs-vicuna-13b-v1.2",
+            "winners": [
+              "A",
+              "A",
+              "A"
+            ],
+            "flipped": false
+          }
+        ]
+      }
+    }
+  }
+}

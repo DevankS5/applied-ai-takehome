@@ -42,7 +42,7 @@ Retrieval: Hit@k, Recall@k, MRR, nDCG@k, context precision. Answer: faithfulness
 |---|---|
 | Modes | Pointwise reference-based (scoring) + pairwise A-vs-B (comparison, position bias). README explains all four. |
 | Rubric | Correctness, faithfulness, completeness, instruction-following, tone/safety (+ unsupported-length penalty); 1-5 anchors, weights, per-criterion rationale that must quote evidence. |
-| Judge vs generator | Generator: Meta Llama family. Judges: Google Gemini and OpenAI gpt-oss (different families), optional ensemble. |
+| Judge vs generator | Generators: OpenAI gpt-oss (Groq retired its Llama models mid-build). Judge: Google Gemini (different family); Qwen as the neutral judge in the self-preference check. |
 | Parsing | Provider JSON mode, then strict pydantic, then repair (fences, trailing commas, quotes, first balanced object), then one re-ask with the error, then `parse_failed` (never a silent 0). Fuzz-tested. |
 | Audit | Every judge prompt and raw response to JSONL with model, params, tokens, latency, cost; `replay` re-parses offline; disk cache by prompt hash. |
 | Aggregation | Per-case weighted score + gates; suite pass rate, mean per criterion, bootstrap CIs; A/B win rate with ties and a significance call. |
