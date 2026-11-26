@@ -97,19 +97,19 @@ def main() -> None:
                           "gpt-oss-120b (Problem 1 answers). Different families by design.")
 
     # ---------------- Problem 1 ----------------
-    put(T[1].cells[0], "Figure: ingestion to cited answer, including the two no-context exits (guard and abstain token).",
-        image=img / "p1_architecture.png")
+    put(T[1].cell(0, 0), "Figure: ingestion to cited answer, including the two no-context exits (guard and abstain token).",
+        image=img / "p1_architecture.png", width=4.4)
     fill_line(P[18], "Python 3.11 or 3.12 with uv; Windows, macOS or Linux; CPU only (no GPU, no database server); "
                      "about 1 GB disk for dependencies, the ONNX embedding model and the index. Free Groq and Gemini API keys.")
     fill_line(P[19], "GROQ_API_KEY, GEMINI_API_KEY (secrets, in a gitignored .env); RAG_DB_PATH, RAG_TABLE, RAG_EMBED_MODEL, "
                      "RAG_CHUNK_SIZE, RAG_CHUNK_OVERLAP, RAG_TOP_K, RAG_SEARCH_MODE, RAG_RERANK, RAG_MIN_SCORE, RAG_GEN_PROVIDER, "
                      "RAG_GEN_MODEL, RAG_RATE_LIMIT_PER_MIN, RAG_TRUST_X_REAL_IP. All are listed in .env.example.")
-    put(T[2].cells[0], f"git clone {REPO}\ncd applied-ai-takehome\nuv sync                      # runtime + dev dependencies\n"
+    put(T[2].cell(0, 0), f"git clone {REPO}\ncd applied-ai-takehome\nuv sync                      # runtime + dev dependencies\n"
                        "cp .env.example .env         # paste GROQ_API_KEY and GEMINI_API_KEY", mono=True)
-    put(T[3].cells[0], "uv run python scripts/fetch_corpus.py --verify   # 17 pinned docs (7 PDF, 6 HTML, 4 MD)\n"
+    put(T[3].cell(0, 0), "uv run python scripts/fetch_corpus.py --verify   # 17 pinned docs (7 PDF, 6 HTML, 4 MD)\n"
                        "uv run python -m rag.ingest data/corpus/raw      # default chunk 400 tokens, overlap 60\n"
                        "# any folder of .pdf/.html/.md works; --chunk-size, --overlap, --table, --prune to change", mono=True)
-    put(T[4].cells[0], "uv run uvicorn rag.api:app --port 8000            # UI on /, OpenAPI on /docs\n"
+    put(T[4].cell(0, 0), "uv run uvicorn rag.api:app --port 8000            # UI on /, OpenAPI on /docs\n"
                        "curl -s localhost:8000/query -H 'content-type: application/json' \\\n"
                        "  -d '{\"question\": \"What is the default hnsw.ef_search in pgvector?\", \"k\": 5, \"filters\": {\"doc_type\": \"md\"}}'\n"
                        "# -> {\"answer\": \"The default value of hnsw.ef_search is 40 [1].\", \"citations\": [...],\n"
@@ -168,7 +168,7 @@ def main() -> None:
         put(cells[2], f"${pine:,.2f} Pinecone Serverless\n${qd:,.2f} Qdrant Cloud")
         put(cells[3], f"{pine / ours:.0f}x cheaper than Pinecone, {qd / ours:.0f}x than Qdrant"
                       + (" (Pinecone's $50 plan minimum binds)" if pine == 50 else ""))
-    put(T[8].cells[0],
+    put(T[8].cell(0, 0),
         "Pricing assumptions (all inputs in rag_eval/cost_assumptions.yaml; prices checked 2026-11-25, us-east-1, on-demand, single "
         "replica everywhere so no option is charged for HA). Record = 384-d float32 vector (1,536 B) + 1,650 B text and metadata = "
         "3,186 B. Workload: 100K queries/month, 10% of records rewritten monthly.\n"
@@ -193,7 +193,7 @@ def main() -> None:
     put(t[3].cells[2], f"embed + retrieve + generation API latency ({ans.get('generator')} on Groq, low reasoning effort), "
                        f"30 questions; p50 {ans.get('e2e_p50_ms')} ms. Excludes client-side rate-limit waits.")
 
-    put(T[10].cells[0],
+    put(T[10].cell(0, 0),
         "The brief says the managed bill comes from stored vectors on always-on pods. LanceDB attacks exactly that: the table is a set "
         "of Lance files on disk or S3 and any process that opens them can search, so an index that is rarely queried costs object "
         "storage plus compute only while a query runs. The same code runs on a laptop, in a container and in a serverless function. "
@@ -202,14 +202,14 @@ def main() -> None:
         "one); Qdrant because its fast path is RAM-resident, so cost tracks vector count again; Chroma because its embedded mode is "
         "local-disk only, so scaling out means running its server; sqlite-vec because it is brute force only; and FAISS alone "
         "because it is a library, not a store (no metadata, no upserts, no persistence model). FAISS is benchmarked as the second store.")
-    put(T[11].cells[0],
+    put(T[11].cell(0, 0),
         "400 tokens with 60 overlap, counted with the embedding model's own tokenizer, packed from whole sentences and never "
         "crossing a paragraph; each chunk is embedded with its title and section heading in front. I swept four settings on the "
         "original and paraphrased questions (pooled Hit@5): 200/30 0.78, 400/0 0.76, 400/60 0.80, 800/100 0.86. 800-token chunks "
         "only win because they send twice the text at the same k: at an equal budget of about 2.2K tokens (k = 3) they drop to "
         "0.70. 200-token chunks cut evidence sentences away from the terms that identify them. Removing overlap lost two questions "
         "whose evidence sat on a boundary. 400/60 is the best result per token sent to the LLM.")
-    put(T[12].cells[0],
+    put(T[12].cell(0, 0),
         "BAAI/bge-small-en-v1.5, 384 dimensions, run locally through fastembed's ONNX runtime (about 65 MB, about 12 ms per query on "
         "CPU, zero per-call cost). 384-d float32 is 1.5 KB per vector, a quarter of a 1536-d API embedding, which keeps storage, "
         "RAM and the cost curve flat; it also means no embedding API key, rate limit or data egress. The price is weaker semantic "
@@ -217,7 +217,7 @@ def main() -> None:
         "hybrid retrieval (0.92 / 0.68) instead of a bigger model; a cross-encoder reranker raises paraphrased Hit@5 to 0.76 but "
         "costs about 2 s per query on CPU, so it is opt-in (RAG_RERANK=true). The model name and dimension are stored in the table "
         "schema and in every chunk id.")
-    put(T[13].cells[0],
+    put(T[13].cell(0, 0),
         "Two layers. First a guard: if the best cosine similarity among the retrieved chunks is below RAG_MIN_SCORE (0.58) the "
         "service returns a fixed 'I can't answer that from the indexed documents' without calling the LLM. 0.58 was calibrated "
         "as the lowest top-1 score of any answerable question (0.628) minus a 0.05 margin, so it never blocks an answerable "
@@ -227,43 +227,43 @@ def main() -> None:
         f"declined ({ans.get('unanswerable_declined_by_guard')} by the guard, {ans.get('unanswerable_declined_by_model')} by the "
         f"model) with {ans.get('false_abstentions')} false abstentions. Citations are parsed and checked against the passages "
         "actually sent; out-of-range markers are reported.")
-    put(T[14].cells[0],
+    put(T[14].cell(0, 0),
         "chunk_id = sha256(doc_id, embedding model, chunk size, overlap, chunk text). Before embedding, ingest reads the ids already "
         "in the table and embeds only new ones; writes go through merge_insert on chunk_id (update if present, insert if not); "
         "chunks of a document that the new run no longer produces are deleted, and --prune removes documents that left the folder. "
         "Re-running on the same corpus embeds 0 chunks and the count stays at 431 (screenshot below). After a change to the "
         "Wikipedia loader only the 24 affected chunks were re-embedded and the 18 they replaced were deleted. Because the settings "
         "are part of the id, changing the chunk size can never leave a mix of old and new chunks.")
-    put(T[15].cells[0],
+    put(T[15].cell(0, 0),
         "Accepted: no replication or HA, single-writer ingestion, a small CPU embedding model that is weaker on paraphrases, cold "
         "starts and object-storage latency on the serverless path, and running the index tuning myself (nprobes / refine). "
         "Switch back to a managed DB when (1) query volume is high and steady: at about 1M queries/month an always-on VM already "
         "beats the serverless path and a managed service starts to pay for itself; (2) we need an uptime SLA, multi-region "
         "replicas or many concurrent writers; (3) p99 must be single-digit ms at 10M+ vectors, which needs RAM-resident HNSW "
         "(FAISS HNSW was 1.5 ms vs 25 ms for on-disk IVF-PQ at 1M); or (4) nobody on the team should own index operations.")
-    put(T[16].cells[0], "Real HTTP request to the running service; the response and the service's JSON log line carry per-stage "
+    put(T[16].cell(0, 0), "Real HTTP request to the running service; the response and the service's JSON log line carry per-stage "
                         "latency, chunk counts and token usage.", image=img / "p1_e2e_query.png")
-    put(T[17].cells[0], "Two consecutive ingest runs on the same corpus: the second embeds 0 chunks and the vector count stays 431.",
+    put(T[17].cell(0, 0), "Two consecutive ingest runs on the same corpus: the second embeds 0 chunks and the vector count stays 431.",
         image=img / "p1_idempotent_reingest.png")
     for i in (18, 19, 20):
-        put(T[i].cells[0], YOURS, mine=True)
+        put(T[i].cell(0, 0), YOURS, mine=True)
 
     # ---------------- Problem 2 ----------------
-    put(T[21].cells[0], "Figure: suite in, both-order pairwise and evidence-first pointwise judging, parse ladder with one "
-                        "re-ask, aggregation in code, report and audit log out.", image=img / "p2_pipeline.png")
+    put(T[21].cell(0, 0), "Figure: suite in, both-order pairwise and evidence-first pointwise judging, parse ladder with one "
+                        "re-ask, aggregation in code, report and audit log out.", image=img / "p2_pipeline.png", width=4.2)
     fill_line(P[74], "Same as Problem 1 (Python 3.11/3.12 + uv, CPU only). Free Gemini key for the judge, free Groq key for the "
                      "generators. No GPU or database.")
     fill_line(P[75], "GEMINI_API_KEY, GROQ_API_KEY (secrets, gitignored .env). Judge and generators are configured in YAML files "
                      "under configs/, not in code.")
-    put(T[22].cells[0], f"git clone {REPO}\ncd applied-ai-takehome\nuv sync\ncp .env.example .env     # paste the two keys",
+    put(T[22].cell(0, 0), f"git clone {REPO}\ncd applied-ai-takehome\nuv sync\ncp .env.example .env     # paste the two keys",
         mono=True)
-    put(T[23].cells[0], "uv run python -m judge run --suite suites/core.yaml --gen configs/gen_b.yaml \\\n"
+    put(T[23].cell(0, 0), "uv run python -m judge run --suite suites/core.yaml --gen configs/gen_b.yaml \\\n"
                         "  --judge configs/judge_v2.yaml --out results/p2/run.json\n"
                         "# suite = YAML/JSON list of {id, input, system_prompt, model_output?, expected_output?, context?, criteria?};\n"
                         "# cases without model_output are generated first. Report: pass rate (95% CI), mean score, per-criterion,\n"
                         "# per-category, score spread, parse stats, tokens and cost. Every call is in logs/judge_audit.jsonl.",
         mono=True)
-    put(T[24].cells[0], "uv run python -m judge ab --suite suites/core.yaml \\\n"
+    put(T[24].cell(0, 0), "uv run python -m judge ab --suite suites/core.yaml \\\n"
                         "  --gen-a configs/gen_a.yaml --gen-b configs/gen_b.yaml --judge configs/judge_v2.yaml\n"
                         "# A = gpt-oss-20b + prompt v1, B = gpt-oss-20b + prompt v2; writes results/p2/ab.json\n"
                         "uv run python -m judge_eval.run_bias        # bias before/after + validation\n"
@@ -368,13 +368,13 @@ def main() -> None:
         f"{cmp_.get('reason')}; pointwise mean difference A-B {pt.get('mean_diff_a_minus_b')} (95% CI {pt.get('mean_diff_ci95')})."
     fill_line(P[96], verdict)
 
-    put(T[29].cells[0],
+    put(T[29].cell(0, 0),
         "Both, for different jobs. Pointwise reference-based scoring answers 'is this good enough to ship?' and gives a pass rate a "
         "release gate can use; the reference answer anchors correctness, so the judge checks rather than guesses. Pairwise answers "
         "'which config is better?', which is what an A/B needs and is more sensitive than comparing two absolute means (absolute "
         "scores cluster; a direct comparison does not). Pairwise is the mode most exposed to position bias, so it only ever runs "
         "in both orders. Reference-free scoring is used only where a case has no expected output.")
-    put(T[30].cells[0],
+    put(T[30].cell(0, 0),
         "The judge is asked for JSON (and the API's JSON mode is on), and the output is validated with Pydantic models: every "
         "criterion present, integer scores 1-5, evidence and rationale strings, winner in {A, B, tie}. Parsing is a ladder and the "
         "rung used is recorded: strict json.loads; extract the first balanced {...} from fenced or chatty text; repair (smart and "
@@ -382,36 +382,36 @@ def main() -> None:
         "'Tie' -> 'tie'). If every rung fails, the judge gets one re-ask containing its own output and the exact validation error. If "
         "that fails too, the case is marked parse_failed and excluded and counted; it is never silently scored. Every prompt and "
         "raw response is in logs/judge_audit.jsonl, and 'python -m judge replay' re-parses the whole log offline.")
-    put(T[31].cells[0],
+    put(T[31].cell(0, 0),
         "LLM judges prefer text that looks like their own (low perplexity to them), so a judge from the generator's family inflates "
         "that generator. The generators are OpenAI gpt-oss models and the judge is Google Gemini, so the A/B is judged by a model "
         "that wrote neither side. I measured the effect rather than assuming it: gpt-oss-120b and Gemini answered the same 12 cases, "
         "and each family's judge was compared with a neutral Qwen judge on those pairs (numbers in 2.3.2). Cost mattered too: "
         "Gemini Flash-Lite is fast and cheap enough to run every pair twice.")
-    put(T[32].cells[0],
+    put(T[32].cell(0, 0),
         "Position bias, because it silently corrupts the A/B verdict, which is the decision the pipeline exists to make, and a "
         "single-order run gives no hint it happened. The mitigation is structural rather than prompt wording: a verdict counts only "
         "if it survives the order swap, otherwise it is a tie, so a position-driven preference cannot produce a win. I am confident "
         "it removes position effects from the final verdicts; the cost is more ties and therefore less statistical power, which is "
         "why the winner also needs a significant sign test. I am less confident about verbosity on long open-ended answers: the "
         "padding probe shows the effect is controlled on short factual cases, not that it is gone everywhere.")
-    put(T[33].cells[0],
+    put(T[33].cell(0, 0),
         "As a gate for regressions, yes, with guardrails: a fixed, versioned suite and judge config (model, prompt, temperature 0), "
         "both-order pairwise for any 'B beats A' decision, a significance test before declaring a winner, a minimum parse-success "
         "rate, and a canary set of adversarial probes that must stay correctly classified before the judge's verdict is trusted. "
         "A human stays in the loop for: safety-category failures, any case where the two orders disagree, failures near the pass "
         "threshold, a periodic sample re-labelled to re-measure agreement and kappa, and any judge model or prompt change, which "
         "requires re-validation against the human-labelled set before it can gate again.")
-    put(T[34].cells[0], "One judge call exactly as logged in logs/judge_audit.jsonl: raw system prompt, raw user prompt and the "
-                        "raw response.", image=img / "p2_audit.png")
-    put(T[35].cells[0], "One pair judged in both orders, with the suite and MT-Bench flip rates.", image=img / "p2_position.png")
-    put(T[36].cells[0], YOURS, mine=True)
-    put(T[37].cells[0], "", image=img / "p2_probe.png")
-    p = T[37].cells[0].add_paragraph()
+    put(T[34].cell(0, 0), "One judge call exactly as logged in logs/judge_audit.jsonl: raw system prompt, raw user prompt and the "
+                        "raw response.", image=img / "p2_audit.png", width=4.0)
+    put(T[35].cell(0, 0), "One pair judged in both orders, with the suite and MT-Bench flip rates.", image=img / "p2_position.png")
+    put(T[36].cell(0, 0), YOURS, mine=True)
+    put(T[37].cell(0, 0), "", image=img / "p2_probe.png")
+    p = T[37].cell(0, 0).add_paragraph()
     rr_ = p.add_run("My read: " + YOURS)
     rr_.font.highlight_color = WD_COLOR_INDEX.YELLOW
     rr_.font.size = Pt(10)
-    put(T[38].cells[0], YOURS, mine=True)
+    put(T[38].cell(0, 0), YOURS, mine=True)
 
     d.save(a.out)
     print(f"saved {a.out}")
